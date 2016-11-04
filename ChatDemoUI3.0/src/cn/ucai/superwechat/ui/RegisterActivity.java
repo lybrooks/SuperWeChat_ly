@@ -206,6 +206,11 @@ public class RegisterActivity extends BaseActivity {
         }).start();
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        MFGT.finish(this);
+    }
 
     @OnClick({R.id.img_back, R.id.btn_register})
     public void onClick(View view) {
