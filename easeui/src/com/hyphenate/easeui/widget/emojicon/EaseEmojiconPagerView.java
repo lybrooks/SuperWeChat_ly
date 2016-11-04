@@ -20,7 +20,7 @@ import com.hyphenate.easeui.domain.EaseEmojicon.Type;
 import com.hyphenate.easeui.domain.EaseEmojiconGroupEntity;
 import com.hyphenate.easeui.utils.EaseSmileUtils;
 
-public class EaseEmojiconPagerView extends ViewPager{
+public class EaseEmojiconPagerView extends ViewPager {
 
     private Context context;
     private List<EaseEmojiconGroupEntity> groupEntities;

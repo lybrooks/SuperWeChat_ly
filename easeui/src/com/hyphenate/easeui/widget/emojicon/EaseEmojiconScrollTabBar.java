@@ -1,6 +1,7 @@
 package com.hyphenate.easeui.widget.emojicon;
 
 import android.content.Context;
+
 import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -98,7 +99,7 @@ public class EaseEmojiconScrollTabBar extends RelativeLayout{
                 @Override
                 public void run() {
                     int mScrollX = tabContainer.getScrollX();
-                    int childX = (int)ViewCompat.getX(tabContainer.getChildAt(position));
+                    int childX = (int) ViewCompat.getX(tabContainer.getChildAt(position));
 
                     if(childX < mScrollX){
                         scrollView.scrollTo(childX,0);
