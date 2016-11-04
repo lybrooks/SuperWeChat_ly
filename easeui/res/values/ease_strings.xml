@@ -106,6 +106,7 @@
     <string name="login">Login</string>
     <string name="user_name">User name</string>
     <string name="password">Password</string>
+    <string name="user_nick">User_nick</string>
     <string name="register">Register</string>
     <string name="confirmpassword">Confirm password</string>
     <string name="downwaiting">Downloading the file, please try again later</string>
