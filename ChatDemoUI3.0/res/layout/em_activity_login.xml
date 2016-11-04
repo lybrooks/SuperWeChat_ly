@@ -79,7 +79,7 @@
             android:id="@+id/btn_register"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
+            android:layout_below="@+id/btn_Login"
             android:layout_marginLeft="10dip"
             android:layout_marginRight="10dip"
             android:background="@drawable/btn_bg_gray"
