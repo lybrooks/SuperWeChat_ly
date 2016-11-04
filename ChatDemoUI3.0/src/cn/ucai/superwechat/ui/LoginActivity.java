@@ -24,6 +24,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,6 +39,7 @@ import cn.ucai.superwechat.R;
 import cn.ucai.superwechat.SuperWechatApplication;
 import cn.ucai.superwechat.SuperWechatHelper;
 import cn.ucai.superwechat.db.SuperWechatDBManager;
+import cn.ucai.superwechat.utils.MD5;
 import cn.ucai.superwechat.utils.MFGT;
 
 /**
@@ -52,6 +54,8 @@ public class LoginActivity extends BaseActivity {
     EditText ETusername;
     @Bind(R.id.password)
     EditText ETpassword;
+    @Bind(R.id.img_back)
+    ImageView imgBack;
 
 
     private boolean progressShow;
@@ -70,9 +74,21 @@ public class LoginActivity extends BaseActivity {
         }
         setContentView(R.layout.em_activity_login);
         ButterKnife.bind(this);
+        setLisentner();
+        initView();
 
+    }
 
-        // if user changed, clear the password
+    private void initView() {
+        if (SuperWechatHelper.getInstance().getCurrentUsernName() != null) {
+            ETusername.setText(SuperWechatHelper.getInstance().getCurrentUsernName());
+        }
+        imgBack.setVisibility(View.VISIBLE);
+        txtTitle.setVisibility(View.VISIBLE);
+        txtTitle.setText(R.string.login);
+    }
+
+    private void setLisentner() {
         ETusername.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -89,9 +105,6 @@ public class LoginActivity extends BaseActivity {
 
             }
         });
-        if (SuperWechatHelper.getInstance().getCurrentUsernName() != null) {
-            ETusername.setText(SuperWechatHelper.getInstance().getCurrentUsernName());
-        }
     }
 
 
@@ -136,7 +149,7 @@ public class LoginActivity extends BaseActivity {
         final long start = System.currentTimeMillis();
         // call login method
         Log.d(TAG, "EMClient.getInstance().login");
-        EMClient.getInstance().login(currentUsername, currentPassword, new EMCallBack() {
+        EMClient.getInstance().login(currentUsername, MD5.getMessageDigest(currentPassword), new EMCallBack() {
 
             @Override
             public void onSuccess() {
