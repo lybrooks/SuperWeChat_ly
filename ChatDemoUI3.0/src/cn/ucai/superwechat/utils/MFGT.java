@@ -12,6 +12,7 @@ import cn.ucai.superwechat.R;
 import cn.ucai.superwechat.ui.LoginActivity;
 import cn.ucai.superwechat.ui.MainActivity;
 import cn.ucai.superwechat.ui.RegisterActivity;
+import cn.ucai.superwechat.ui.SettingsActivity;
 
 public class MFGT {
     public static void finish(Activity activity) {
@@ -50,4 +51,7 @@ public class MFGT {
     }
 
 
+    public static void gotoSetting(Context context) {
+        startActivity((Activity) context, SettingsActivity.class);
+    }
 }
