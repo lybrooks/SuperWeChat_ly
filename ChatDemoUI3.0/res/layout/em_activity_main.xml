@@ -21,6 +21,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:layout_alignParentBottom="true"
         >
         <View
             android:layout_width="match_parent"
@@ -29,6 +30,7 @@
             />
         <cn.ucai.superwechat.widget.DMTabHost
             android:layout_width="match_parent"
+            android:id="@+id/layout_tabHost"
             android:layout_height="47dp">
             <cn.ucai.superwechat.widget.DMTabButton
                 android:layout_width="match_parent"
