@@ -65,7 +65,7 @@ import cn.ucai.superwechat.runtimepermissions.PermissionsResultAction;
 import cn.ucai.superwechat.widget.DMTabHost;
 
 @SuppressLint("NewApi")
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity implements DMTabHost.OnCheckedChangeListener, ViewPager.OnPageChangeListener {
 
     protected static final String TAG = "MainActivity";
     //	// textview for unread message count
@@ -209,10 +209,10 @@ public class MainActivity extends BaseActivity {
         layoutViewpager.setAdapter(mAdapter);
         layoutViewpager.setOffscreenPageLimit(4);
         mAdapter.clear();
-        mAdapter.addFragment(new ConversationListFragment(),getString(R.string.app_name));
-        mAdapter.addFragment(new ContactListFragment(),getString(R.string.contacts));
-        mAdapter.addFragment(new DiscoverFragment(),getString(R.string.discover));
-        mAdapter.addFragment(new SettingsFragment(),getString(R.string.me));
+        mAdapter.addFragment(new ConversationListFragment(), getString(R.string.app_name));
+        mAdapter.addFragment(new ContactListFragment(), getString(R.string.contacts));
+        mAdapter.addFragment(new DiscoverFragment(), getString(R.string.discover));
+        mAdapter.addFragment(new SettingsFragment(), getString(R.string.me));
         mAdapter.notifyDataSetChanged();
         layoutTabHost.setChecked(0);
     }
@@ -313,6 +313,27 @@ public class MainActivity extends BaseActivity {
             }
         };
         broadcastManager.registerReceiver(broadcastReceiver, intentFilter);
+    }
+
+    @Override
+    public void onCheckedChange(int checkedPosition, boolean byUser) {
+        layoutViewpager.setCurrentItem(checkedPosition, false);
+        layoutTabHost.setChecked(checkedPosition);
+    }
+
+    @Override
+    public void onPageScrolled(int i, float v, int i1) {
+
+    }
+
+    @Override
+    public void onPageSelected(int i) {
+        layoutTabHost.setChecked(i);
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int i) {
+
     }
 
     public class MyContactListener implements EMContactListener {
