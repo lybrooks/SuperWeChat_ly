@@ -30,6 +30,7 @@ import android.widget.Toast;
 
 import com.hyphenate.EMCallBack;
 import com.hyphenate.chat.EMClient;
+import com.hyphenate.easeui.domain.User;
 import com.hyphenate.easeui.utils.EaseCommonUtils;
 
 import butterknife.Bind;
@@ -38,9 +39,11 @@ import butterknife.OnClick;
 import cn.ucai.superwechat.R;
 import cn.ucai.superwechat.SuperWechatApplication;
 import cn.ucai.superwechat.SuperWechatHelper;
+import cn.ucai.superwechat.bean.Result;
 import cn.ucai.superwechat.data.NetDao;
 import cn.ucai.superwechat.data.OkHttpUtils;
 import cn.ucai.superwechat.db.SuperWechatDBManager;
+import cn.ucai.superwechat.db.UserDao;
 import cn.ucai.superwechat.utils.L;
 import cn.ucai.superwechat.utils.MD5;
 import cn.ucai.superwechat.utils.MFGT;
@@ -200,7 +203,21 @@ public class LoginActivity extends BaseActivity {
         NetDao.Login(mContext, currentUsername, currentPassword, new OkHttpUtils.OnCompleteListener<String>() {
             @Override
             public void onSuccess(String s) {
-                L.e(TAG+"s"+s);
+                L.e(TAG + "s" + s);
+                if (s != null && s != "") {
+                    Result result = ResultUtils.getResultFromJson(s, User.class);
+                    if (result != null && result.isRetMsg()) {
+                        User user = (User) result.getRetData();
+                        if (user != null) {
+                            UserDao dao = new UserDao(mContext);
+                            dao.savaUser(user);
+                            SuperWechatHelper.getInstance().setCurrentUser(user);
+                        }
+                    }else {
+                        pd.dismiss();
+                        
+                    }
+                }
                 LoginSuccess();
                 pd.dismiss();
             }
@@ -208,7 +225,7 @@ public class LoginActivity extends BaseActivity {
             @Override
             public void onError(String error) {
                 pd.dismiss();
-                L.e(TAG+"error"+error);
+                L.e(TAG + "error" + error);
             }
         });
 

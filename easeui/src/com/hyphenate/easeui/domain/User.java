@@ -1,10 +1,9 @@
-package cn.ucai.superwechat.bean;
+package com.hyphenate.easeui.domain;
 
 import java.io.Serializable;
 
-import cn.ucai.superwechat.utils.UserUtils;
 
-public class UserAvatar implements Serializable {
+public class User implements Serializable {
 	private String muserName;
 	private String muserNick;
 	private Integer mavatarId;
@@ -18,17 +17,17 @@ public class UserAvatar implements Serializable {
 	 */
 	protected String initialLetter;
 	
-	public UserAvatar() {
+	public User() {
 		super();
 	}
 
-	public UserAvatar(String muserName) {
+	public User(String muserName) {
 		this.muserName = muserName;
 	}
 
-	public UserAvatar(String muserName, String muserNick,
-					  Integer mavatarId, String mavatarPath, String mavatarSuffix, Integer mavatarType,
-					  String mavatarLastUpdateTime) {
+	public User(String muserName, String muserNick,
+				Integer mavatarId, String mavatarPath, String mavatarSuffix, Integer mavatarType,
+				String mavatarLastUpdateTime) {
 		super();
 		this.muserName = muserName;
 		this.muserNick = muserNick;
@@ -93,13 +92,13 @@ public class UserAvatar implements Serializable {
 	public String getMAvatarSuffix() {
 		return mavatarSuffix;
 	}
-
-	public String getInitialLetter() {
-		if(initialLetter == null){
-			UserUtils.setUserInitialLetter(this);
-		}
-		return initialLetter;
-	}
+//
+//	public String getInitialLetter() {
+//		if(initialLetter == null){
+//			UserUtils.setUserInitialLetter(this);
+//		}
+//		return initialLetter;
+//	}
 
 	public void setInitialLetter(String initialLetter) {
 		this.initialLetter = initialLetter;

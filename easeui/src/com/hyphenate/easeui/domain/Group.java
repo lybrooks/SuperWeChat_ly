@@ -1,8 +1,8 @@
-package cn.ucai.superwechat.bean;
+package com.hyphenate.easeui.domain;
 
 import java.io.Serializable;
 
-public class GroupAvatar implements Serializable{
+public class Group implements Serializable{
 	private static final long serialVersionUID = 1L;
 	private Integer mavatarId;
 	private String mavatarUserName;
@@ -20,13 +20,13 @@ public class GroupAvatar implements Serializable{
 	private Integer mgroupAffiliationsCount;
 	private Boolean mgroupIsPublic;
 	private Boolean mgroupAllowInvites;
-	public GroupAvatar() {
+	public Group() {
 		super();
 	}
-	public GroupAvatar(Integer mavatarId, String mavatarUserName, String mavatarPath, String mavatarSuffix, Integer mavatarType,
-			String mavatarLastUpdateTime, Integer mgroupId, String mgroupHxid, String mgroupName,
-			String mgroupDescription, String mgroupOwner, String mgroupLastModifiedTime, Integer mgroupMaxUsers,
-			Integer mgroupAffiliationsCount, Boolean mgroupIsPublic, Boolean mgroupAllowInvites) {
+	public Group(Integer mavatarId, String mavatarUserName, String mavatarPath, String mavatarSuffix, Integer mavatarType,
+				 String mavatarLastUpdateTime, Integer mgroupId, String mgroupHxid, String mgroupName,
+				 String mgroupDescription, String mgroupOwner, String mgroupLastModifiedTime, Integer mgroupMaxUsers,
+				 Integer mgroupAffiliationsCount, Boolean mgroupIsPublic, Boolean mgroupAllowInvites) {
 		super();
 		this.mavatarId = mavatarId;
 		this.mavatarUserName = mavatarUserName;

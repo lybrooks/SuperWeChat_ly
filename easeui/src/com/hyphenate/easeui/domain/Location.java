@@ -1,8 +1,8 @@
-package cn.ucai.superwechat.bean;
+package com.hyphenate.easeui.domain;
 
 import java.io.Serializable;
 
-public class LocationUserAvatar extends UserAvatar implements Serializable{
+public class Location extends User implements Serializable{
 	private static final long serialVersionUID = 1L;
 	private Integer mlocationId;
 	private Double mlocationLatitude;
@@ -10,13 +10,13 @@ public class LocationUserAvatar extends UserAvatar implements Serializable{
 	private Boolean mlocationIsSearched;
 	private String mlocationLastUpdateTime;
 	private Double distance;
-	public LocationUserAvatar() {
+	public Location() {
 		super();
 	}
 
-	public LocationUserAvatar(String muserName, String muserNick, Integer mavatarId, String mavatarPath,String mavatarSuffix,
-			Integer mavatarType, String mavatarLastUpdateTime,Integer mlocationId, Double mlocationLatitude, Double mlocationLongitude,
-			Boolean mlocationIsSearched, String mlocationLastUpdateTime, Double distance) {
+	public Location(String muserName, String muserNick, Integer mavatarId, String mavatarPath, String mavatarSuffix,
+					Integer mavatarType, String mavatarLastUpdateTime, Integer mlocationId, Double mlocationLatitude, Double mlocationLongitude,
+					Boolean mlocationIsSearched, String mlocationLastUpdateTime, Double distance) {
 		super(muserName, muserNick, mavatarId, mavatarPath,mavatarSuffix, mavatarType, mavatarLastUpdateTime);
 		this.mlocationId = mlocationId;
 		this.mlocationLatitude = mlocationLatitude;
