@@ -38,6 +38,7 @@ import butterknife.OnClick;
 import cn.ucai.superwechat.R;
 import cn.ucai.superwechat.SuperWechatHelper;
 import cn.ucai.superwechat.SuperWechatModel;
+import cn.ucai.superwechat.utils.ExitAppUtils;
 import cn.ucai.superwechat.utils.MFGT;
 
 /**
@@ -381,6 +382,7 @@ public class SettingsActivity extends BaseActivity implements OnClickListener {
                     public void run() {
                         pd.dismiss();
                         // show login screen
+                        ExitAppUtils.getInstance().exit();
                         finish();
                         startActivity(new Intent(SettingsActivity.this, LoginActivity.class));
 
