@@ -227,7 +227,7 @@ public class SuperWechatHelper {
 
             @Override
             public User getAppUser(String username) {
-                return null;
+                return getAppUserInfo(username);
             }
         });
 
@@ -367,6 +367,20 @@ public class SuperWechatHelper {
                 return intent;
             }
         });
+    }
+
+    private User getAppUserInfo(String username) {
+        // To get instance of EaseUser, here we get it from the user list in memory
+        // You'd better cache it if you get it from your server
+        User user = null;
+        user = getAppcontactList().get(username);
+        // if user is not in your contacts, set inital letter for him/her
+        if (user == null) {
+            user = new User(username);
+            EaseCommonUtils.setAppUserInitialLetter(user);
+        }
+        return user;
+
     }
 
     EMConnectionListener connectionListener;
