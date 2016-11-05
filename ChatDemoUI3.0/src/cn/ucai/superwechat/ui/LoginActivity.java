@@ -213,10 +213,11 @@ public class LoginActivity extends BaseActivity {
                             dao.savaUser(user);
                             SuperWechatHelper.getInstance().setCurrentUser(user);
                         }
-                    }else {
+                    } else {
                         pd.dismiss();
-                        
                     }
+                } else {
+                    pd.dismiss();
                 }
                 LoginSuccess();
                 pd.dismiss();
