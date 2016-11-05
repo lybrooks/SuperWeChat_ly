@@ -215,6 +215,8 @@ public class MainActivity extends BaseActivity implements DMTabHost.OnCheckedCha
         mAdapter.addFragment(new SettingsFragment(), getString(R.string.me));
         mAdapter.notifyDataSetChanged();
         layoutTabHost.setChecked(0);
+        layoutTabHost.setOnCheckedChangeListener(this);
+        layoutViewpager.setOnPageChangeListener(this);
     }
 
     EMMessageListener messageListener = new EMMessageListener() {
@@ -318,7 +320,6 @@ public class MainActivity extends BaseActivity implements DMTabHost.OnCheckedCha
     @Override
     public void onCheckedChange(int checkedPosition, boolean byUser) {
         layoutViewpager.setCurrentItem(checkedPosition, false);
-        layoutTabHost.setChecked(checkedPosition);
     }
 
     @Override
@@ -329,6 +330,7 @@ public class MainActivity extends BaseActivity implements DMTabHost.OnCheckedCha
     @Override
     public void onPageSelected(int i) {
         layoutTabHost.setChecked(i);
+        layoutViewpager.setCurrentItem(i);
     }
 
     @Override
