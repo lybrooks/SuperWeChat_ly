@@ -38,9 +38,13 @@ import butterknife.OnClick;
 import cn.ucai.superwechat.R;
 import cn.ucai.superwechat.SuperWechatApplication;
 import cn.ucai.superwechat.SuperWechatHelper;
+import cn.ucai.superwechat.data.NetDao;
+import cn.ucai.superwechat.data.OkHttpUtils;
 import cn.ucai.superwechat.db.SuperWechatDBManager;
+import cn.ucai.superwechat.utils.L;
 import cn.ucai.superwechat.utils.MD5;
 import cn.ucai.superwechat.utils.MFGT;
+import cn.ucai.superwechat.utils.ResultUtils;
 
 /**
  * Login screen
@@ -57,9 +61,14 @@ public class LoginActivity extends BaseActivity {
     @Bind(R.id.img_back)
     ImageView imgBack;
 
+    String currentUsername;
+    String currentPassword;
+    ProgressDialog pd;
 
     private boolean progressShow;
     private boolean autoLogin = false;
+
+    LoginActivity mContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +84,7 @@ public class LoginActivity extends BaseActivity {
         setContentView(R.layout.em_activity_login);
         ButterKnife.bind(this);
         setLisentner();
+        mContext = this;
         initView();
 
     }
@@ -109,12 +119,13 @@ public class LoginActivity extends BaseActivity {
 
 
     public void login() {
+        //检测网络连接
         if (!EaseCommonUtils.isNetWorkConnected(this)) {
             Toast.makeText(this, R.string.network_isnot_available, Toast.LENGTH_SHORT).show();
             return;
         }
-        String currentUsername = ETusername.getText().toString().trim();
-        String currentPassword = ETpassword.getText().toString().trim();
+        currentUsername = ETusername.getText().toString().trim();
+        currentPassword = ETpassword.getText().toString().trim();
 
         if (TextUtils.isEmpty(currentUsername)) {
             Toast.makeText(this, R.string.User_name_cannot_be_empty, Toast.LENGTH_SHORT).show();
@@ -126,7 +137,7 @@ public class LoginActivity extends BaseActivity {
         }
 
         progressShow = true;
-        final ProgressDialog pd = new ProgressDialog(LoginActivity.this);
+        pd = new ProgressDialog(LoginActivity.this);
         pd.setCanceledOnTouchOutside(false);
         pd.setOnCancelListener(new OnCancelListener() {
 
@@ -139,6 +150,11 @@ public class LoginActivity extends BaseActivity {
         pd.setMessage(getString(R.string.Is_landing));
         pd.show();
 
+        LoginEmServer();
+
+    }
+
+    private void LoginEmServer() {
         // After logout，the DemoDB may still be accessed due to async callback, so the DemoDB will be re-opened again.
         // close it before login to make sure DemoDB not overlap
         SuperWechatDBManager.getInstance().closeDB();
@@ -154,30 +170,8 @@ public class LoginActivity extends BaseActivity {
             @Override
             public void onSuccess() {
                 Log.d(TAG, "login: onSuccess");
+                LoginAppServer();
 
-
-                // ** manually load all local groups and conversation
-                EMClient.getInstance().groupManager().loadAllGroups();
-                EMClient.getInstance().chatManager().loadAllConversations();
-
-                // update current user's display name for APNs
-                boolean updatenick = EMClient.getInstance().updateCurrentUserNick(
-                        SuperWechatApplication.currentUserNick.trim());
-                if (!updatenick) {
-                    Log.e("LoginActivity", "update current user nick fail");
-                }
-
-                if (!LoginActivity.this.isFinishing() && pd.isShowing()) {
-                    pd.dismiss();
-                }
-                // get user's info (this should be get from App's server or 3rd party service)
-                SuperWechatHelper.getInstance().getUserProfileManager().asyncGetCurrentUserInfo();
-
-                Intent intent = new Intent(LoginActivity.this,
-                        MainActivity.class);
-                startActivity(intent);
-
-                finish();
             }
 
             @Override
@@ -200,6 +194,50 @@ public class LoginActivity extends BaseActivity {
                 });
             }
         });
+    }
+
+    private void LoginAppServer() {
+        NetDao.Login(mContext, currentUsername, currentPassword, new OkHttpUtils.OnCompleteListener<String>() {
+            @Override
+            public void onSuccess(String s) {
+                L.e(TAG+"s"+s);
+                LoginSuccess();
+                pd.dismiss();
+            }
+
+            @Override
+            public void onError(String error) {
+                pd.dismiss();
+                L.e(TAG+"error"+error);
+            }
+        });
+
+    }
+
+    private void LoginSuccess() {
+
+        // ** manually load all local groups and conversation
+        EMClient.getInstance().groupManager().loadAllGroups();
+        EMClient.getInstance().chatManager().loadAllConversations();
+
+        // update current user's display name for APNs
+        boolean updatenick = EMClient.getInstance().updateCurrentUserNick(
+                SuperWechatApplication.currentUserNick.trim());
+        if (!updatenick) {
+            Log.e("LoginActivity", "update current user nick fail");
+        }
+
+        if (!LoginActivity.this.isFinishing() && pd.isShowing()) {
+            pd.dismiss();
+        }
+        // get user's info (this should be get from App's server or 3rd party service)
+        SuperWechatHelper.getInstance().getUserProfileManager().asyncGetCurrentUserInfo();
+
+        Intent intent = new Intent(LoginActivity.this,
+                MainActivity.class);
+        startActivity(intent);
+
+        finish();
     }
 
 
