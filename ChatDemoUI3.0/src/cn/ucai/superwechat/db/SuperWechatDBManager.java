@@ -469,7 +469,7 @@ public class SuperWechatDBManager {
             while (cursor.moveToNext()) {
                 String username = cursor.getString(cursor.getColumnIndex(UserDao.USER_COLUME_NAME));
                 User user = new User(username);
-                user.setMUserNick(cursor.getString(cursor.getColumnIndex(UserDao.COLUMN_NAME_NICK)));
+                user.setMUserNick(cursor.getString(cursor.getColumnIndex(UserDao.USER_COLUME_NICK)));
                 user.setMUserName(cursor.getString(cursor.getColumnIndex(UserDao.USER_COLUME_NAME)));
                 user.setMAvatarId(cursor.getInt(cursor.getColumnIndex(UserDao.USER_COLUME_AVATAR_ID)));
                 user.setMAvatarType(cursor.getInt(cursor.getColumnIndex(UserDao.USER_COLUMEE_AVATAR_TYPE)));

@@ -1254,6 +1254,7 @@ public class SuperWechatHelper {
 
         isGroupAndContactListenerRegisted = false;
 
+        setAppcontactList(null);
         setContactList(null);
         setRobotList(null);
         getUserProfileManager().reset();
