@@ -89,6 +89,8 @@ public class SuperWechatHelper {
 
     private Map<String, EaseUser> contactList;
 
+
+
     private Map<String, RobotUser> robotList;
 
     private UserProfileManager userProManager;
@@ -98,6 +100,8 @@ public class SuperWechatHelper {
     private SuperWechatModel demoModel = null;
 
     private User currentUser = null;
+
+    private Map<String, User> AppcontactList;
 
     /**
      * sync groups status listener
@@ -219,6 +223,11 @@ public class SuperWechatHelper {
             @Override
             public EaseUser getUser(String username) {
                 return getUserInfo(username);
+            }
+
+            @Override
+            public User getAppUser(String username) {
+                return null;
             }
         });
 
@@ -851,7 +860,6 @@ public class SuperWechatHelper {
     /**
      * update contact list
      *
-     * @param contactList
      */
     public void setContactList(Map<String, EaseUser> aContactList) {
         if (aContactList == null) {
@@ -1257,5 +1265,54 @@ public class SuperWechatHelper {
 
     public void setCurrentUser(User currentUser) {
         this.currentUser = currentUser;
+    }
+
+
+    public void setAppcontactList(Map<String, User> aContactList) {
+        if (aContactList == null) {
+            if (AppcontactList != null) {
+                AppcontactList.clear();
+            }
+            return;
+        }
+
+        AppcontactList = aContactList;
+    }
+
+    /**
+     * save single contact
+     */
+    public void saveAppContact(User user) {
+        AppcontactList.put(user.getMUserName(), user);
+        demoModel.saveAppContact(user);
+    }
+
+    /**
+     * get contact list
+     *
+     * @return
+     */
+    public Map<String, User> getAppcontactList() {
+        if (isLoggedIn() && AppcontactList == null) {
+            AppcontactList = demoModel.getAppContactList();
+        }
+
+        // return a empty non-null object to avoid app crash
+        if (AppcontactList == null) {
+            return new Hashtable<String, User>();
+        }
+
+        return AppcontactList;
+    }
+    /**
+     * update user list to cache and database
+     */
+    public void updateAppContactList(List<User> contactInfoList) {
+        for (User u : contactInfoList) {
+            AppcontactList.put(u.getMUserName(), u);
+        }
+        ArrayList<User> mList = new ArrayList<User>();
+        mList.addAll(AppcontactList.values());
+        demoModel.saveAppContactList(mList);
     }
 }
