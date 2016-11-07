@@ -140,4 +140,8 @@ public class EaseUserUtils {
     private static void setAppUserName(String suffix,String username, TextView textview) {
         textview.setText(suffix+username);
     }
+
+    public static void setAppUserName(String mUserName, TextView textview) {
+        textview.setText("微信号："+mUserName);
+    }
 }
