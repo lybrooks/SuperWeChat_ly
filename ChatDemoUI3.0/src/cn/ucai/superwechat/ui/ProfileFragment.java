@@ -1,5 +1,6 @@
 package cn.ucai.superwechat.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -9,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.easemob.redpacketui.utils.RedPacketUtil;
+import com.hyphenate.chat.EMClient;
 import com.hyphenate.easeui.utils.EaseUserUtils;
 
 import butterknife.Bind;
@@ -58,7 +60,7 @@ public class ProfileFragment extends Fragment {
         ButterKnife.unbind(this);
     }
 
-    @OnClick({R.id.profile_tv_money, R.id.profile_tv_setting})
+    @OnClick({R.id.profile_tv_money, R.id.profile_tv_setting, R.id.LL_userprofile})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.profile_tv_money:
@@ -66,6 +68,10 @@ public class ProfileFragment extends Fragment {
                 break;
             case R.id.profile_tv_setting:
                 MFGT.gotoSetting(getContext());
+                break;
+            case R.id.LL_userprofile:
+                startActivity(new Intent(getContext(), UserProfileActivity.class).putExtra("setting", true)
+                        .putExtra("username", EMClient.getInstance().getCurrentUser()));
                 break;
         }
     }

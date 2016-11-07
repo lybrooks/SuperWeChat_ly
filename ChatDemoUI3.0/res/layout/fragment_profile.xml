@@ -20,7 +20,9 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="85dp"
-                android:background="#fff">
+                android:background="#fff"
+                android:id="@+id/LL_userprofile"
+                >
 
                 <ImageView
                     android:id="@+id/profile_iv_userAvatar"
