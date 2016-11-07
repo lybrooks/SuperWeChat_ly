@@ -8,13 +8,12 @@ import android.widget.TextView;
 import com.hyphenate.easeui.domain.User;
 import com.hyphenate.easeui.utils.EaseUserUtils;
 
-import java.io.Serializable;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.ucai.superwechat.I;
 import cn.ucai.superwechat.R;
+import cn.ucai.superwechat.SuperWechatHelper;
 import cn.ucai.superwechat.utils.MFGT;
 
 public class FriendProfileActivity extends BaseActivity {
@@ -36,8 +35,11 @@ public class FriendProfileActivity extends BaseActivity {
     @Bind(R.id.txt_title)
     TextView txtTitle;
 
-    User user = null;
+    @Bind(R.id.friends_addfriends)
+    TextView friendsAddfriends;
 
+
+    User user = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,11 +56,20 @@ public class FriendProfileActivity extends BaseActivity {
         imgBack.setVisibility(View.VISIBLE);
         txtTitle.setVisibility(View.VISIBLE);
         txtTitle.setText(R.string.profile_title);
-        friendsSend.setVisibility(View.VISIBLE);
-        friendsMoive.setVisibility(View.VISIBLE);
-
         setUserInfo();
+        isFriend();
 
+    }
+
+    private void isFriend() {
+        if (SuperWechatHelper.getInstance().getAppcontactList().containsKey(user.getMUserName())) {
+            friendsSend.setVisibility(View.VISIBLE);
+            friendsSend.setText(R.string.send_message);
+            friendsMoive.setVisibility(View.VISIBLE);
+            friendsMoive.setText(R.string.moive_chat);
+        } else {
+            friendsAddfriends.setVisibility(View.VISIBLE);
+        }
     }
 
     private void setUserInfo() {
@@ -67,7 +78,16 @@ public class FriendProfileActivity extends BaseActivity {
         EaseUserUtils.setAppUserName(user.getMUserName(), profileTvUsername);
     }
 
-    @OnClick(R.id.friends_send)
-    public void onClick() {
+
+    @OnClick({R.id.img_back, R.id.btn_send})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.img_back:
+                MFGT.finish(this);
+                break;
+            case R.id.btn_send:
+
+                break;
+        }
     }
 }
