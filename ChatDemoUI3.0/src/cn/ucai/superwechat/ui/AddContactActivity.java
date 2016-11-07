@@ -29,11 +29,13 @@ import com.hyphenate.easeui.widget.EaseAlertDialog;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.ucai.superwechat.I;
 import cn.ucai.superwechat.R;
 import cn.ucai.superwechat.SuperWechatHelper;
 import cn.ucai.superwechat.bean.Result;
 import cn.ucai.superwechat.data.NetDao;
 import cn.ucai.superwechat.data.OkHttpUtils;
+import cn.ucai.superwechat.utils.CommonUtils;
 import cn.ucai.superwechat.utils.MFGT;
 import cn.ucai.superwechat.utils.ResultUtils;
 
@@ -99,21 +101,21 @@ public class AddContactActivity extends BaseActivity {
                     Result result = ResultUtils.getResultFromJson(s, User.class);
                     if (result != null && result.isRetMsg()) {
                         User user = (User) result.getRetData();
-                        if(user!=null){
-                            
+                        if (user != null) {
+                            MFGT.gotoFriendProfile(AddContactActivity.this, user);
                         }
-                    }else {
-
+                    } else {
+                        CommonUtils.showMsgShortToast(R.string.msg_104);
                     }
                 } else {
-
+                    CommonUtils.showMsgShortToast(R.string.msg_104);
                 }
             }
 
             @Override
             public void onError(String error) {
                 progressDialog.dismiss();
-
+                CommonUtils.showMsgShortToast(R.string.msg_104);
             }
         });
     }
