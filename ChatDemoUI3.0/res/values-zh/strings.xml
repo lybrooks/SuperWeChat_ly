@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="username_cant_be_notify">username_cannot be notify</string>
+    <string name="username_cant_be_notify">帐号不能被修改</string>
+    <string name="nick_is_not_modify">昵称未修改</string>
 </resources>

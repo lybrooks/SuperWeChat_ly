@@ -46,7 +46,7 @@ public class ProfileFragment extends Fragment {
     }
 
     private void setUserInfo() {
-        EaseUserUtils.setCurrentAppUserAvatar(getActivity(),profileIvUserAvatar);
+        EaseUserUtils.setCurrentAppUserAvatar(getActivity(), profileIvUserAvatar);
         EaseUserUtils.setCurrentAppUserNick(profileTvNick);
         EaseUserUtils.setCurremtAppUserName(profileTvUsername);
 
@@ -69,13 +69,20 @@ public class ProfileFragment extends Fragment {
                 break;
         }
     }
+
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        if(((MainActivity)getActivity()).isConflict){
+        if (((MainActivity) getActivity()).isConflict) {
             outState.putBoolean("isConflict", true);
-        }else if(((MainActivity)getActivity()).getCurrentAccountRemoved()){
+        } else if (((MainActivity) getActivity()).getCurrentAccountRemoved()) {
             outState.putBoolean(Constant.ACCOUNT_REMOVED, true);
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        setUserInfo();
     }
 }
