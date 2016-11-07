@@ -55,7 +55,7 @@ public class FriendProfileActivity extends BaseActivity {
     private void initView() {
         imgBack.setVisibility(View.VISIBLE);
         txtTitle.setVisibility(View.VISIBLE);
-        txtTitle.setText(R.string.profile_title);
+        txtTitle.setText(R.string.profile_friend);
         setUserInfo();
         isFriend();
 
@@ -79,14 +79,14 @@ public class FriendProfileActivity extends BaseActivity {
     }
 
 
-    @OnClick({R.id.img_back, R.id.btn_send})
+    @OnClick({R.id.img_back, R.id.friends_addfriends})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.img_back:
                 MFGT.finish(this);
                 break;
-            case R.id.btn_send:
-
+            case R.id.friends_addfriends:
+                MFGT.gotoSendMessage(this,user.getMUserName());
                 break;
         }
     }
