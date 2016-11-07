@@ -44,14 +44,13 @@ public class ProfileFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         if (savedInstanceState != null && savedInstanceState.getBoolean("isConflict", false))
             return;
-        setUserInfo();
+       // setUserInfo();
     }
 
     private void setUserInfo() {
         EaseUserUtils.setCurrentAppUserAvatar(getActivity(), profileIvUserAvatar);
         EaseUserUtils.setCurrentAppUserNick(profileTvNick);
         EaseUserUtils.setCurremtAppUserName(profileTvUsername);
-
     }
 
     @Override

@@ -83,7 +83,6 @@
             <TextView
                 android:id="@+id/profile_tv_smail"
                 style="@style/list_txt_Style_without_right"
-                android:layout_marginTop="15dp"
                 android:drawableLeft="@drawable/icon_me_smail"
                 android:text="表情" />
 

@@ -77,12 +77,12 @@
 
         <Button
             android:id="@+id/btn_register"
-            android:layout_width="match_parent"
+            android:layout_centerHorizontal="true"
+            android:layout_width="80dp"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/btn_Login"
             android:layout_marginLeft="10dip"
             android:layout_marginRight="10dip"
-            android:background="@drawable/btn_bg_gray"
+            android:background="@color/white"
             android:gravity="center"
             android:onClick="register"
             android:paddingBottom="7dp"
@@ -90,7 +90,20 @@
             android:text="@string/register"
             android:textColor="@android:color/black"
             android:textSize="18sp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/size201px"
 
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="登陆时遇到问题?"
+            android:layout_marginTop="5dp"
+            android:textColor="#0813e4"
+            android:textSize="12sp"
+            android:layout_below="@+id/btn_Login"
+            android:layout_centerHorizontal="true"
+            android:layout_marginRight="@dimen/size201px"
             />
 
         <Button
