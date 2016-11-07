@@ -45,6 +45,7 @@ import com.hyphenate.chat.EMCmdMessageBody;
 import com.hyphenate.chat.EMConversation;
 import com.hyphenate.chat.EMConversation.EMConversationType;
 import com.hyphenate.chat.EMMessage;
+import com.hyphenate.easeui.domain.User;
 import com.hyphenate.easeui.utils.EaseCommonUtils;
 import com.hyphenate.util.EMLog;
 import com.umeng.analytics.MobclickAgent;
@@ -114,7 +115,7 @@ public class MainActivity extends BaseActivity implements DMTabHost.OnCheckedCha
         CheckAccount();
 
         inviteMessgeDao = new InviteMessgeDao(this);
-        UserDao userDao = new UserDao(this);
+   //     UserDao userDao = new UserDao(this);
 //		conversationListFragment = new ConversationListFragment();
 //		contactListFragment = new ContactListFragment();
 //		SettingsFragment settingFragment = new SettingsFragment();
@@ -217,6 +218,8 @@ public class MainActivity extends BaseActivity implements DMTabHost.OnCheckedCha
         layoutTabHost.setChecked(0);
         layoutTabHost.setOnCheckedChangeListener(this);
         layoutViewpager.setOnPageChangeListener(this);
+
+
     }
 
     EMMessageListener messageListener = new EMMessageListener() {

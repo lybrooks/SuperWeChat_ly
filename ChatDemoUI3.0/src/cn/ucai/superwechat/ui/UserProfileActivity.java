@@ -58,7 +58,6 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
 
     private TextView tvNickName;
     private ProgressDialog dialog;
-    private RelativeLayout rlNickName;
 
     private TextView tvUserName;
     User users = null;
@@ -79,7 +78,7 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
     private void initView() {
         imgBack.setVisibility(View.VISIBLE);
         txtTitle.setVisibility(View.VISIBLE);
-        txtTitle.setText(R.string.setting);
+        txtTitle.setText(R.string.profile_title);
 
         headAvatar = (ImageView) findViewById(R.id.iv_user_profile);
 
@@ -252,6 +251,8 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
                 if (s != null) {
                     Result result = ResultUtils.getResultFromJson(s, User.class);
                     if (result != null && result.isRetMsg()) {
+                        User user = (User) result.getRetData();
+                        SuperWechatHelper.getInstance().saveAppContact(user);
                         setPicToView(picData);
                     } else {
                         dialog.dismiss();
@@ -318,7 +319,10 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
             Bitmap photo = extras.getParcelable("data");
             Drawable drawable = new BitmapDrawable(getResources(), photo);
             headAvatar.setImageDrawable(drawable);
-            uploadUserAvatar(Bitmap2Bytes(photo));
+            dialog.dismiss();
+            Toast.makeText(UserProfileActivity.this, getString(R.string.toast_updatephoto_success),
+                    Toast.LENGTH_SHORT).show();
+           // uploadUserAvatar(Bitmap2Bytes(photo));
         }
 
     }
@@ -359,7 +363,7 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
     }
 
 
-    @OnClick({R.id.img_back, R.id.iv_user_profile, R.id.tv_nickname_profile, R.id.tv_username_profile})
+    @OnClick({R.id.img_back, R.id.iv_user_profile, R.id.layout_usernick, R.id.layout_username})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.img_back:
@@ -368,7 +372,7 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
             case R.id.iv_user_profile:
                 uploadHeadPhoto();
                 break;
-            case R.id.tv_nickname_profile:
+            case R.id.layout_usernick:
                 final EditText editText = new EditText(this);
                 editText.setText(users.getMUserNick());
                 new Builder(this).setTitle(R.string.setting_nickname).setIcon(android.R.drawable.ic_dialog_info).setView(editText)
@@ -388,7 +392,7 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
                             }
                         }).setNegativeButton(R.string.dl_cancel, null).show();
                 break;
-            case R.id.tv_username_profile:
+            case R.id.layout_username:
                 CommonUtils.showShortToast(R.string.username_cant_be_notify);
                 break;
         }

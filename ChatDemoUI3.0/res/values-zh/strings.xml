@@ -2,4 +2,5 @@
 <resources>
     <string name="username_cant_be_notify">帐号不能被修改</string>
     <string name="nick_is_not_modify">昵称未修改</string>
+    <string name="profile_title">个人信息</string>
 </resources>
