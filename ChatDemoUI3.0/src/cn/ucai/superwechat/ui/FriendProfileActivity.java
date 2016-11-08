@@ -1,5 +1,6 @@
 package cn.ucai.superwechat.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -56,8 +57,9 @@ public class FriendProfileActivity extends BaseActivity {
         imgBack.setVisibility(View.VISIBLE);
         txtTitle.setVisibility(View.VISIBLE);
         txtTitle.setText(R.string.profile_friend);
-        setUserInfo();
         isFriend();
+        setUserInfo();
+
 
     }
 
@@ -79,7 +81,7 @@ public class FriendProfileActivity extends BaseActivity {
     }
 
 
-    @OnClick({R.id.img_back, R.id.friends_addfriends})
+    @OnClick({R.id.img_back, R.id.friends_addfriends,R.id.friends_send})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.img_back:
@@ -87,6 +89,9 @@ public class FriendProfileActivity extends BaseActivity {
                 break;
             case R.id.friends_addfriends:
                 MFGT.gotoSendMessage(this,user.getMUserName());
+                break;
+            case R.id.friends_send:
+                MFGT.gotoChat(this,user.getMUserName());
                 break;
         }
     }

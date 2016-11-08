@@ -266,6 +266,20 @@
             android:screenOrientation="portrait"
             android:theme="@style/horizontal_slide" />
         <activity
+            android:name=".ui.GuildleActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/horizontal_slide" />
+        <activity
+            android:name=".ui.FriendProfileActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/horizontal_slide" />
+        <activity
+            android:name=".ui.SendMessage_Activity"
+            android:screenOrientation="portrait"
+            android:theme="@style/horizontal_slide" />
+
+
+        <activity
             android:name=".ui.SetServersActivity"
             android:screenOrientation="portrait"
             android:theme="@style/horizontal_slide" />
@@ -476,9 +490,6 @@
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="3ecea51f560650b1ed8a4b99808f52e8" />
 
-        <activity android:name=".ui.GuildleActivity" />
-        <activity android:name=".ui.FriendProfileActivity" />
-        <activity android:name=".ui.SendMessage_Activity"></activity>
     </application>
 
 </manifest>
