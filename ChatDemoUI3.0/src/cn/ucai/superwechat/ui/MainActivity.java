@@ -343,7 +343,7 @@ public class MainActivity extends BaseActivity implements DMTabHost.OnCheckedCha
                         GroupsActivity.instance.onResume();
                     }
                 }
-//                }               }
+//                }
                 //red packet code : 处理红包回执透传消息
                 if (action.equals(RedPacketConstant.REFRESH_GROUP_RED_PACKET_ACTION)) {
                     if (conversationListFragment != null) {

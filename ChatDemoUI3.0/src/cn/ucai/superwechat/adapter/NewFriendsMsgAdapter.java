@@ -109,7 +109,7 @@ public class NewFriendsMsgAdapter extends ArrayAdapter<InviteMessage> {
 						Result result = ResultUtils.getResultFromJson(s, User.class);
 						if(result!=null&&result.isRetMsg()){
 							User user = (User) result.getRetData();
-							EaseUserUtils.setAppUserAvatar(context,msg.getFrom(),holder.avator);
+							EaseUserUtils.setAppUserPathAvatar(context,user.getAvatar(),holder.avator);
 							EaseUserUtils.setAppUserNick(user.getMUserNick(),holder.name);
 						}
 					}
