@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import cn.ucai.superwechat.R;
 import cn.ucai.superwechat.runtimepermissions.PermissionsManager;
+import cn.ucai.superwechat.utils.ExitAppUtils;
+
 import com.hyphenate.easeui.ui.EaseChatFragment;
 import com.hyphenate.util.EasyUtils;
 

@@ -1,6 +1,9 @@
 package cn.ucai.superwechat.data;
+
 import android.content.Context;
+
 import java.io.File;
+
 import cn.ucai.superwechat.I;
 import cn.ucai.superwechat.bean.Result;
 import cn.ucai.superwechat.utils.MD5;
@@ -27,7 +30,7 @@ public class NetDao {
     /**
      * 取消注册请求
      */
-    public static void UNuserRegister(Context context, String username,OkHttpUtils.OnCompleteListener<Result> litener) {
+    public static void UNuserRegister(Context context, String username, OkHttpUtils.OnCompleteListener<Result> litener) {
         OkHttpUtils<Result> uitls = new OkHttpUtils<>(context);
         uitls.setRequestUrl(I.REQUEST_UNREGISTER)
                 .addParam(I.User.USER_NAME, username)
@@ -59,6 +62,7 @@ public class NetDao {
                 .execute(listener);
 
     }
+
     /**
      * 更改头像
      */
@@ -83,8 +87,11 @@ public class NetDao {
                 .targetClass(String.class)
                 .execute(listener);
     }
-    /**查找用户信息*/
-    public static void searchUser(Context context, String username,OkHttpUtils.OnCompleteListener<String> listener) {
+
+    /**
+     * 查找用户信息
+     */
+    public static void searchUser(Context context, String username, OkHttpUtils.OnCompleteListener<String> listener) {
         OkHttpUtils<String> utils = new OkHttpUtils<>(context);
         utils.setRequestUrl(I.REQUEST_FIND_USER)
                 .addParam(I.User.USER_NAME, username)
@@ -105,7 +112,15 @@ public class NetDao {
     }
 
 
-
-
-
+    /**
+     * 删除好友
+     */
+    public static void deteUser(Context context, String mUserName, String cusername, OkHttpUtils.OnCompleteListener<String> listener) {
+        OkHttpUtils<String> utils = new OkHttpUtils<>(context);
+        utils.setRequestUrl(I.REQUEST_DELETE_CONTACT)
+                .addParam(I.Contact.USER_NAME, mUserName)
+                .addParam(I.Contact.CU_NAME, cusername)
+                .targetClass(String.class)
+                .execute(listener);
+    }
 }

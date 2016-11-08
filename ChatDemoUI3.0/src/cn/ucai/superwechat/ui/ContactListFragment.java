@@ -21,19 +21,22 @@ import com.hyphenate.chat.EMClient;
 import cn.ucai.superwechat.SuperWechatHelper;
 
 import cn.ucai.superwechat.R;
+import cn.ucai.superwechat.bean.Result;
+import cn.ucai.superwechat.data.NetDao;
+import cn.ucai.superwechat.data.OkHttpUtils;
 import cn.ucai.superwechat.db.InviteMessgeDao;
 import cn.ucai.superwechat.db.UserDao;
+import cn.ucai.superwechat.utils.CommonUtils;
 import cn.ucai.superwechat.utils.MFGT;
+import cn.ucai.superwechat.utils.ResultUtils;
 import cn.ucai.superwechat.widget.ContactItemView;
 
 import com.hyphenate.easeui.domain.EaseUser;
-import com.hyphenate.easeui.domain.User;
 import com.hyphenate.easeui.ui.EaseContactListFragment;
 import com.hyphenate.util.EMLog;
 import com.hyphenate.util.NetUtils;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.view.ContextMenu;
@@ -45,7 +48,6 @@ import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.GridView;
 import android.widget.Toast;
 
 /**
@@ -222,11 +224,29 @@ public class ContactListFragment extends EaseContactListFragment {
     public boolean onContextItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.delete_contact) {
             try {
-                // delete contact
-                deleteContact(toBeProcessUser);
-                // remove invitation message
-                InviteMessgeDao dao = new InviteMessgeDao(getActivity());
-                dao.deleteMessage(toBeProcessUser.getUsername());
+                NetDao.deteUser(getContext(), SuperWechatHelper.getInstance().getCurrentUser().getMUserName(), toBeProcessUser.getUsername(), new OkHttpUtils.OnCompleteListener<String>() {
+                    @Override
+                    public void onSuccess(String s) {
+                        if(s!=null){
+                            Result result = ResultUtils.getResultFromJson(s, Result.class);
+                            if(result!=null&&result.isRetMsg()){
+                                CommonUtils.showShortToast(R.string.delete_contact);
+                                // delete contact
+                                deleteContact(toBeProcessUser);
+                                // remove invitation message
+                                InviteMessgeDao dao = new InviteMessgeDao(getActivity());
+                                dao.deleteMessage(toBeProcessUser.getUsername());
+                            }
+                        }
+
+                    }
+
+                    @Override
+                    public void onError(String error) {
+
+                    }
+                });
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
