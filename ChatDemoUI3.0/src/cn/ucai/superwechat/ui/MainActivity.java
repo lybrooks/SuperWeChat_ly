@@ -78,10 +78,10 @@ public class MainActivity extends BaseActivity implements DMTabHost.OnCheckedCha
 //	private TextView unreadAddressLable;
 //
 //	private Button[] mTabs;
-//	private ContactListFragment contactListFragment;
-//	private Fragment[] fragments;
+    private ContactListFragment contactListFragment;
+    //	private Fragment[] fragments;
 //	private int index;
-	private int currentTabIndex;
+    private int currentTabIndex;
     // user logged into another device
     public boolean isConflict = false;
     @Bind(R.id.txt_left)
@@ -115,6 +115,7 @@ public class MainActivity extends BaseActivity implements DMTabHost.OnCheckedCha
         ButterKnife.bind(this);
         // runtime permission for android 6.0, just require all permissions here for simple
         requestPermissions();
+        contactListFragment = new ContactListFragment();
         initView();
         ument();
         CheckAccount();
@@ -122,7 +123,7 @@ public class MainActivity extends BaseActivity implements DMTabHost.OnCheckedCha
         inviteMessgeDao = new InviteMessgeDao(this);
         //     UserDao userDao = new UserDao(this);
 //		conversationListFragment = new ConversationListFragment();
-//		contactListFragment = new ContactListFragment();
+		//contactListFragment = new ContactListFragment();
 //		SettingsFragment settingFragment = new SettingsFragment();
 //		fragments = new Fragment[] { conversationListFragment, contactListFragment, settingFragment};
 //
@@ -216,7 +217,7 @@ public class MainActivity extends BaseActivity implements DMTabHost.OnCheckedCha
         layoutViewpager.setOffscreenPageLimit(4);
         mAdapter.clear();
         mAdapter.addFragment(new ConversationListFragment(), getString(R.string.app_name));
-        mAdapter.addFragment(new ContactListFragment(), getString(R.string.contacts));
+        mAdapter.addFragment(contactListFragment, getString(R.string.contacts));
         mAdapter.addFragment(new DiscoverFragment(), getString(R.string.discover));
         mAdapter.addFragment(new ProfileFragment(), getString(R.string.me));
         mAdapter.notifyDataSetChanged();
@@ -329,17 +330,19 @@ public class MainActivity extends BaseActivity implements DMTabHost.OnCheckedCha
 //                        conversationListFragment.refresh();
 //                    }
 //                } else
-// if (currentTabIndex == 1) {
-//                    if(contactListFragment != null) {
-//                        contactListFragment.refresh();
-//                    }
-//                }
+                if (currentTabIndex == 1) {
+                    if (contactListFragment != null) {
+                        contactListFragment.refresh();
+                    }
+                }
+//
                 String action = intent.getAction();
                 if (action.equals(Constant.ACTION_GROUP_CHANAGED)) {
                     if (EaseCommonUtils.getTopActivity(MainActivity.this).equals(GroupsActivity.class.getName())) {
                         GroupsActivity.instance.onResume();
                     }
                 }
+//                }               }
                 //red packet code : 处理红包回执透传消息
                 if (action.equals(RedPacketConstant.REFRESH_GROUP_RED_PACKET_ACTION)) {
                     if (conversationListFragment != null) {
@@ -354,6 +357,7 @@ public class MainActivity extends BaseActivity implements DMTabHost.OnCheckedCha
 
     @Override
     public void onCheckedChange(int checkedPosition, boolean byUser) {
+        currentTabIndex = checkedPosition;
         layoutViewpager.setCurrentItem(checkedPosition, false);
     }
 
@@ -364,6 +368,7 @@ public class MainActivity extends BaseActivity implements DMTabHost.OnCheckedCha
 
     @Override
     public void onPageSelected(int i) {
+        currentTabIndex = i;
         layoutTabHost.setChecked(i);
         layoutViewpager.setCurrentItem(i);
     }
@@ -452,11 +457,11 @@ public class MainActivity extends BaseActivity implements DMTabHost.OnCheckedCha
         runOnUiThread(new Runnable() {
             public void run() {
                 int count = getUnreadAddressCountTotal();
-				if (count > 0) {
-					layoutTabHost.setHasNew(1,true);
-				} else {
-                    layoutTabHost.setHasNew(1,false);
-				}
+                if (count > 0) {
+                    layoutTabHost.setHasNew(1, true);
+                } else {
+                    layoutTabHost.setHasNew(1, false);
+                }
             }
         });
 
