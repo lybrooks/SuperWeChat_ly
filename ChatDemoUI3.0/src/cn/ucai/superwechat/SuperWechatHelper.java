@@ -1,12 +1,14 @@
 package cn.ucai.superwechat;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Hashtable;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
 
+import com.alipay.security.mobile.module.commonutils.CommonUtils;
 import com.easemob.redpacketui.RedPacketConstant;
 import com.easemob.redpacketui.utils.RedPacketUtil;
 import com.hyphenate.EMCallBack;
@@ -25,23 +27,6 @@ import com.hyphenate.chat.EMMessage.Status;
 import com.hyphenate.chat.EMMessage.Type;
 import com.hyphenate.chat.EMOptions;
 import com.hyphenate.chat.EMTextMessageBody;
-
-import cn.ucai.superwechat.db.SuperWechatDBManager;
-import cn.ucai.superwechat.db.InviteMessgeDao;
-import cn.ucai.superwechat.db.UserDao;
-import cn.ucai.superwechat.domain.EmojiconExampleGroupData;
-import cn.ucai.superwechat.domain.InviteMessage;
-import cn.ucai.superwechat.domain.InviteMessage.InviteMesageStatus;
-import cn.ucai.superwechat.domain.RobotUser;
-import cn.ucai.superwechat.parse.UserProfileManager;
-import cn.ucai.superwechat.receiver.CallReceiver;
-import cn.ucai.superwechat.ui.ChatActivity;
-import cn.ucai.superwechat.ui.MainActivity;
-import cn.ucai.superwechat.ui.VideoCallActivity;
-import cn.ucai.superwechat.ui.VoiceCallActivity;
-import cn.ucai.superwechat.utils.L;
-import cn.ucai.superwechat.utils.PreferenceManager;
-
 import com.hyphenate.easeui.controller.EaseUI;
 import com.hyphenate.easeui.controller.EaseUI.EaseEmojiconInfoProvider;
 import com.hyphenate.easeui.controller.EaseUI.EaseSettingsProvider;
@@ -57,13 +42,32 @@ import com.hyphenate.easeui.utils.EaseCommonUtils;
 import com.hyphenate.exceptions.HyphenateException;
 import com.hyphenate.util.EMLog;
 
-import android.app.Activity;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.support.v4.content.LocalBroadcastManager;
-import android.util.Log;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Hashtable;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+
+import cn.ucai.superwechat.bean.Result;
+import cn.ucai.superwechat.data.NetDao;
+import cn.ucai.superwechat.data.OkHttpUtils;
+import cn.ucai.superwechat.db.InviteMessgeDao;
+import cn.ucai.superwechat.db.SuperWechatDBManager;
+import cn.ucai.superwechat.db.UserDao;
+import cn.ucai.superwechat.domain.EmojiconExampleGroupData;
+import cn.ucai.superwechat.domain.InviteMessage;
+import cn.ucai.superwechat.domain.InviteMessage.InviteMesageStatus;
+import cn.ucai.superwechat.domain.RobotUser;
+import cn.ucai.superwechat.parse.UserProfileManager;
+import cn.ucai.superwechat.receiver.CallReceiver;
+import cn.ucai.superwechat.ui.ChatActivity;
+import cn.ucai.superwechat.ui.MainActivity;
+import cn.ucai.superwechat.ui.VideoCallActivity;
+import cn.ucai.superwechat.ui.VoiceCallActivity;
+import cn.ucai.superwechat.utils.L;
+import cn.ucai.superwechat.utils.PreferenceManager;
+import cn.ucai.superwechat.utils.ResultUtils;
 
 public class SuperWechatHelper {
     /**
@@ -88,7 +92,6 @@ public class SuperWechatHelper {
     protected EMMessageListener messageListener = null;
 
     private Map<String, EaseUser> contactList;
-
 
 
     private Map<String, RobotUser> robotList;
@@ -637,6 +640,33 @@ public class SuperWechatHelper {
             toAddUsers.put(username, user);
             localUsers.putAll(toAddUsers);
 
+            Map<String, User> localAppUsers = getAppcontactList();
+            if (!localAppUsers.containsKey(username)) {
+                NetDao.AddContact(appContext,EMClient.getInstance().getCurrentUser(),username, new OkHttpUtils.OnCompleteListener<String>() {
+                    @Override
+                    public void onSuccess(String s) {
+                        if (s != null) {
+                            Result result = ResultUtils.getResultFromJson(s, User.class);
+                            if (result != null && result.isRetMsg()) {
+                                User u = (User) result.getRetData();
+                                saveAppContact(u);
+
+                                broadcastManager.sendBroadcast(new Intent(Constant.ACTION_CONTACT_CHANAGED));
+                            } else {
+                                return;
+                            }
+                        }
+
+                    }
+
+                    @Override
+                    public void onError(String error) {
+
+                    }
+                });
+            }
+
+
             broadcastManager.sendBroadcast(new Intent(Constant.ACTION_CONTACT_CHANAGED));
         }
 
@@ -873,7 +903,6 @@ public class SuperWechatHelper {
 
     /**
      * update contact list
-     *
      */
     public void setContactList(Map<String, EaseUser> aContactList) {
         if (aContactList == null) {
@@ -1272,7 +1301,7 @@ public class SuperWechatHelper {
     public User getCurrentUser() {
         if (currentUser == null) {
             String username = EMClient.getInstance().getCurrentUser();
-            L.e(TAG,"getCurrentUsername="+username);
+            L.e(TAG, "getCurrentUsername=" + username);
             currentUser = new User(username);
         }
         return currentUser;
@@ -1308,7 +1337,7 @@ public class SuperWechatHelper {
      * @return
      */
     public Map<String, User> getAppcontactList() {
-        if (isLoggedIn() && (AppcontactList == null||contactList.size()==0)) {
+        if (isLoggedIn() && (AppcontactList == null || contactList.size() == 0)) {
             AppcontactList = demoModel.getAppContactList();
         }
 
@@ -1319,6 +1348,7 @@ public class SuperWechatHelper {
 
         return AppcontactList;
     }
+
     /**
      * update user list to cache and database
      */
