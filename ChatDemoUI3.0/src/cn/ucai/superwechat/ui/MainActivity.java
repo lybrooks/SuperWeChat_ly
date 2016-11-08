@@ -296,7 +296,7 @@ public class MainActivity extends BaseActivity implements DMTabHost.OnCheckedCha
         runOnUiThread(new Runnable() {
             public void run() {
                 // refresh unread count
-                updateUnreadLabel();
+//                updateUnreadLabel();
 //				if (currentTabIndex == 0) {
 //					// refresh conversation list
 //					if (conversationListFragment != null) {
@@ -330,6 +330,7 @@ public class MainActivity extends BaseActivity implements DMTabHost.OnCheckedCha
 //                        conversationListFragment.refresh();
 //                    }
 //                } else
+
                 if (currentTabIndex == 1) {
                     if (contactListFragment != null) {
                         contactListFragment.refresh();
