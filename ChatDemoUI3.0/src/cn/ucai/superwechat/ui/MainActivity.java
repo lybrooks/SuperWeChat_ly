@@ -81,7 +81,7 @@ public class MainActivity extends BaseActivity implements DMTabHost.OnCheckedCha
 //	private ContactListFragment contactListFragment;
 //	private Fragment[] fragments;
 //	private int index;
-//	private int currentTabIndex;
+	private int currentTabIndex;
     // user logged into another device
     public boolean isConflict = false;
     @Bind(R.id.txt_left)
@@ -328,7 +328,8 @@ public class MainActivity extends BaseActivity implements DMTabHost.OnCheckedCha
 //                    if (conversationListFragment != null) {
 //                        conversationListFragment.refresh();
 //                    }
-//                } else if (currentTabIndex == 1) {
+//                } else
+// if (currentTabIndex == 1) {
 //                    if(contactListFragment != null) {
 //                        contactListFragment.refresh();
 //                    }
@@ -451,11 +452,11 @@ public class MainActivity extends BaseActivity implements DMTabHost.OnCheckedCha
         runOnUiThread(new Runnable() {
             public void run() {
                 int count = getUnreadAddressCountTotal();
-//				if (count > 0) {
-//					unreadAddressLable.setVisibility(View.VISIBLE);
-//				} else {
-//					unreadAddressLable.setVisibility(View.INVISIBLE);
-//				}
+				if (count > 0) {
+					layoutTabHost.setHasNew(1,true);
+				} else {
+                    layoutTabHost.setHasNew(1,false);
+				}
             }
         });
 

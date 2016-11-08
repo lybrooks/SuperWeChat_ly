@@ -57,11 +57,7 @@ public class SendMessage_Activity extends BaseActivity {
         msg = getString(R.string.addcontact_send_msg_prefix) + EaseUserUtils.getCurrentAppUserInfo().getMUserNick();
         etMessage.setText(msg);
 
-        progressDialog = new ProgressDialog(this);
-        String stri = getResources().getString(R.string.addcontact_send_msg_title);
-        progressDialog.setMessage(stri);
-        progressDialog.setCanceledOnTouchOutside(false);
-        progressDialog.show();
+
     }
 
     @OnClick({R.id.img_back, R.id.btn_send})
@@ -77,7 +73,13 @@ public class SendMessage_Activity extends BaseActivity {
     }
 
     private void sednMsg() {
+        progressDialog = new ProgressDialog(this);
+        String stri = getResources().getString(R.string.addcontact_send_msg_title);
+        progressDialog.setMessage(stri);
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.show();
         new Thread(new Runnable() {
+
             public void run() {
                 try {
                     //demo use a hardcode reason here, you need let user to input if you like
