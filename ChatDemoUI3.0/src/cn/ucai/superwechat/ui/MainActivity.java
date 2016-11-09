@@ -1,6 +1,6 @@
 /**
  * Copyright (C) 2016 Hyphenate Inc. All rights reserved.
- * <p/>
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -57,6 +57,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.ucai.superwechat.Constant;
+import cn.ucai.superwechat.I;
 import cn.ucai.superwechat.R;
 import cn.ucai.superwechat.SuperWechatHelper;
 import cn.ucai.superwechat.adapter.MainTabAdpter;
@@ -325,16 +326,16 @@ public class MainActivity extends BaseActivity implements DMTabHost.OnCheckedCha
             public void onReceive(Context context, Intent intent) {
                 updateUnreadLabel();
                 updateUnreadAddressLable();
-            //    if (currentTabIndex == 0) {
-                    // refresh conversation list
-                    if (conversationListFragment != null) {
-                        conversationListFragment.refresh();
-                    }
-           //     } else if (currentTabIndex == 1) {
-                    if (contactListFragment != null) {
-                        contactListFragment.refresh();
-                    }
-             //   }
+                //    if (currentTabIndex == 0) {
+                // refresh conversation list
+                if (conversationListFragment != null) {
+                    conversationListFragment.refresh();
+                }
+                //     } else if (currentTabIndex == 1) {
+                if (contactListFragment != null) {
+                    contactListFragment.refresh();
+                }
+                //   }
 //
                 String action = intent.getAction();
                 if (action.equals(Constant.ACTION_GROUP_CHANAGED)) {
@@ -442,7 +443,7 @@ public class MainActivity extends BaseActivity implements DMTabHost.OnCheckedCha
      */
     public void updateUnreadLabel() {
         int count = getUnreadMsgCountTotal();
-        layoutTabHost.setUnreadCount(0,count);
+        layoutTabHost.setUnreadCount(0, count);
 //        if (count > 0) {
 //            layoutTabHost.setHasNew(0, true);
 //
@@ -504,6 +505,7 @@ public class MainActivity extends BaseActivity implements DMTabHost.OnCheckedCha
             updateUnreadLabel();
             updateUnreadAddressLable();
         }
+
 
         // unregister this event listener when this activity enters the
         // background
@@ -626,6 +628,10 @@ public class MainActivity extends BaseActivity implements DMTabHost.OnCheckedCha
             showConflictDialog();
         } else if (intent.getBooleanExtra(Constant.ACCOUNT_REMOVED, false) && !isAccountRemovedDialogShow) {
             showAccountRemovedDialog();
+        }
+        boolean back = intent.getBooleanExtra(I.ACTION_BACK_CONVERSATION, false);
+        if (back) {
+            layoutTabHost.setChecked(0);
         }
     }
 
