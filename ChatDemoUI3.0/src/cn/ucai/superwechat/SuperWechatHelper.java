@@ -642,7 +642,7 @@ public class SuperWechatHelper {
 
             Map<String, User> localAppUsers = getAppcontactList();
             if (!localAppUsers.containsKey(username)) {
-                NetDao.AddContact(appContext,EMClient.getInstance().getCurrentUser(),username, new OkHttpUtils.OnCompleteListener<String>() {
+                NetDao.AddContact(appContext, EMClient.getInstance().getCurrentUser(), username, new OkHttpUtils.OnCompleteListener<String>() {
                     @Override
                     public void onSuccess(String s) {
                         if (s != null) {
@@ -671,11 +671,14 @@ public class SuperWechatHelper {
         }
 
         @Override
-        public void onContactDeleted(String username) {
+        public void onContactDeleted(final String username) {
             Map<String, EaseUser> localUsers = SuperWechatHelper.getInstance().getContactList();
             localUsers.remove(username);
             userDao.deleteContact(username);
             inviteMessgeDao.deleteMessage(username);
+
+            SuperWechatHelper.getInstance().deleteAppContact(username);
+
 
             broadcastManager.sendBroadcast(new Intent(Constant.ACTION_CONTACT_CHANAGED));
         }
@@ -1330,6 +1333,15 @@ public class SuperWechatHelper {
         AppcontactList.put(user.getMUserName(), user);
         demoModel.saveAppContact(user);
     }
+
+    /**
+     * delete single contact
+     */
+    public void deleteAppContact(String username) {
+        AppcontactList.remove(username);
+        demoModel.deleteAppContact(username);
+    }
+
 
     /**
      * get contact list

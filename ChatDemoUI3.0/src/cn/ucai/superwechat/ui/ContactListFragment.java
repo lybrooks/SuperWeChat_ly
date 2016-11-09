@@ -134,7 +134,7 @@ public class ContactListFragment extends EaseContactListFragment {
                     User u = SuperWechatHelper.getInstance().getAppcontactList().get(username);
                     if (u != null) {
                         MFGT.gotoFriendProfile(getActivity(), u);
-                    }else {
+                    } else {
                         return;
                     }
                 }
@@ -258,7 +258,23 @@ public class ContactListFragment extends EaseContactListFragment {
         pd.setMessage(st1);
         pd.setCanceledOnTouchOutside(false);
         pd.show();
-        //NetDao.deteUser();
+        NetDao.deteUser(getContext(), EMClient.getInstance().getCurrentUser(), tobeDeleteUser.getUsername(), new OkHttpUtils.OnCompleteListener<String>() {
+            @Override
+            public void onSuccess(String s) {
+                if (s != null) {
+                    Result result = ResultUtils.getResultFromJson(s, User.class);
+                    if (result != null && result.isRetMsg()) {
+                        SuperWechatHelper.getInstance().deleteAppContact(tobeDeleteUser.getUsername());
+                    }
+                }
+
+            }
+
+            @Override
+            public void onError(String error) {
+
+            }
+        });
 
 
         new Thread(new Runnable() {

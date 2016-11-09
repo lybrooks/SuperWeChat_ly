@@ -513,4 +513,11 @@ public class SuperWechatDBManager {
             }
         }
     }
+  /**删除好友*/
+    synchronized public void deleteAppContact(String username) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        if (db.isOpen()) {
+            db.delete(UserDao.USER_TABLE_NAME, UserDao.USER_COLUME_NAME + " = ?", new String[]{username});
+        }
+    }
 }

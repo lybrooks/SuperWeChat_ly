@@ -132,4 +132,8 @@ public class UserDao {
 	public void saveAppContactList(ArrayList<User> mList) {
 		SuperWechatDBManager.getInstance().saveAppContactList(mList);
 	}
+
+	public void deleteAppContact(String username){
+		SuperWechatDBManager.getInstance().deleteAppContact(username);
+	}
 }
