@@ -124,7 +124,7 @@ public class MainActivity extends BaseActivity implements DMTabHost.OnCheckedCha
         inviteMessgeDao = new InviteMessgeDao(this);
         //     UserDao userDao = new UserDao(this);
 
-		//contactListFragment = new ContactListFragment();
+        //contactListFragment = new ContactListFragment();
 //		SettingsFragment settingFragment = new SettingsFragment();
 //		fragments = new Fragment[] { conversationListFragment, contactListFragment, settingFragment};
 //
@@ -298,12 +298,12 @@ public class MainActivity extends BaseActivity implements DMTabHost.OnCheckedCha
             public void run() {
                 // refresh unread count
                 updateUnreadLabel();
-				if (currentTabIndex == 0) {
-					// refresh conversation list
-					if (conversationListFragment != null) {
-						conversationListFragment.refresh();
-					}
-				}
+                if (currentTabIndex == 0) {
+                    // refresh conversation list
+                    if (conversationListFragment != null) {
+                        conversationListFragment.refresh();
+                    }
+                }
             }
         });
     }
@@ -325,14 +325,12 @@ public class MainActivity extends BaseActivity implements DMTabHost.OnCheckedCha
             public void onReceive(Context context, Intent intent) {
                 updateUnreadLabel();
                 updateUnreadAddressLable();
-//                if (currentTabIndex == 0) {
-//                    // refresh conversation list
-//                    if (conversationListFragment != null) {
-//                        conversationListFragment.refresh();
-//                    }
-//                } else
-
-                if (currentTabIndex == 1) {
+                if (currentTabIndex == 0) {
+                    // refresh conversation list
+                    if (conversationListFragment != null) {
+                        conversationListFragment.refresh();
+                    }
+                } else if (currentTabIndex == 1) {
                     if (contactListFragment != null) {
                         contactListFragment.refresh();
                     }
@@ -444,12 +442,13 @@ public class MainActivity extends BaseActivity implements DMTabHost.OnCheckedCha
      */
     public void updateUnreadLabel() {
         int count = getUnreadMsgCountTotal();
-//		if (count > 0) {
-//			unreadLabel.setText(String.valueOf(count));
-//			unreadLabel.setVisibility(View.VISIBLE);
-//		} else {
-//			unreadLabel.setVisibility(View.INVISIBLE);
-//		}
+        layoutTabHost.setUnreadCount(0,count);
+//        if (count > 0) {
+//            layoutTabHost.setHasNew(0, true);
+//
+//        } else {
+//            layoutTabHost.setHasNew(0, false);
+//        }
     }
 
     /**
@@ -466,7 +465,6 @@ public class MainActivity extends BaseActivity implements DMTabHost.OnCheckedCha
                 }
             }
         });
-
     }
 
     /**

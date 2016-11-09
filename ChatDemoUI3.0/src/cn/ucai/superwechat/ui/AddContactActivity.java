@@ -93,31 +93,36 @@ public class AddContactActivity extends BaseActivity {
     }
 
     private void searchAppUser() {
-        NetDao.searchUser(this, toAddUsername, new OkHttpUtils.OnCompleteListener<String>() {
-            @Override
-            public void onSuccess(String s) {
-                progressDialog.dismiss();
-                if (s != null) {
-                    Result result = ResultUtils.getResultFromJson(s, User.class);
-                    if (result != null && result.isRetMsg()) {
-                        User user = (User) result.getRetData();
-                        if (user != null) {
-                            MFGT.gotoFriendProfile(AddContactActivity.this, user);
+        if (toAddUsername.isEmpty() && toAddUsername.length() == 0) {
+            CommonUtils.showShortToast("用户不存在");
+            return;
+        } else {
+            NetDao.searchUser(this, toAddUsername, new OkHttpUtils.OnCompleteListener<String>() {
+                @Override
+                public void onSuccess(String s) {
+                    progressDialog.dismiss();
+                    if (s != null) {
+                        Result result = ResultUtils.getResultFromJson(s, User.class);
+                        if (result != null && result.isRetMsg()) {
+                            User user = (User) result.getRetData();
+                            if (user != null) {
+                                MFGT.gotoFriendProfile(AddContactActivity.this, user);
+                            }
+                        } else {
+                            CommonUtils.showMsgShortToast(R.string.msg_104);
                         }
                     } else {
                         CommonUtils.showMsgShortToast(R.string.msg_104);
                     }
-                } else {
+                }
+
+                @Override
+                public void onError(String error) {
+                    progressDialog.dismiss();
                     CommonUtils.showMsgShortToast(R.string.msg_104);
                 }
-            }
-
-            @Override
-            public void onError(String error) {
-                progressDialog.dismiss();
-                CommonUtils.showMsgShortToast(R.string.msg_104);
-            }
-        });
+            });
+        }
     }
 
     /**
