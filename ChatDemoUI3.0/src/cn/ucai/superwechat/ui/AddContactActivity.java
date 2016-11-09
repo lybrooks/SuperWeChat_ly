@@ -109,10 +109,10 @@ public class AddContactActivity extends BaseActivity {
                                 MFGT.gotoFriendProfile(AddContactActivity.this, user);
                             }
                         } else {
-                            CommonUtils.showMsgShortToast(R.string.msg_104);
+                            CommonUtils.showShortToast(R.string.msg_104);
                         }
                     } else {
-                        CommonUtils.showMsgShortToast(R.string.msg_104);
+                        CommonUtils.showShortToast(R.string.msg_104);
                     }
                 }
 

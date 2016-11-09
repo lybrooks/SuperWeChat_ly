@@ -83,7 +83,7 @@ public class FriendProfileActivity extends BaseActivity {
     }
 
 
-    @OnClick({R.id.img_back, R.id.friends_addfriends,R.id.friends_send})
+    @OnClick({R.id.img_back, R.id.friends_addfriends,R.id.friends_send,R.id.friends_moive})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.img_back:
@@ -95,6 +95,10 @@ public class FriendProfileActivity extends BaseActivity {
             case R.id.friends_send:
                 MFGT.gotoChat(this,user.getMUserName());
                 break;
+            case R.id.friends_moive:
+
+                break;
+
         }
     }
 }

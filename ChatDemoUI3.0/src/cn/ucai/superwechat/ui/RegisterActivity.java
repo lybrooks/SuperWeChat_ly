@@ -129,7 +129,7 @@ public class RegisterActivity extends BaseActivity {
             public void onSuccess(Result result) {
                 if (result == null) {
                     pd.dismiss();
-
+                    return;
                 } else {
                     if (result.isRetMsg()) {
                         registerEMServer();

@@ -3,6 +3,7 @@ package cn.ucai.superwechat.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.provider.MediaStore;
 
 import com.hyphenate.easeui.domain.User;
 
@@ -17,6 +18,7 @@ import cn.ucai.superwechat.ui.MainActivity;
 import cn.ucai.superwechat.ui.RegisterActivity;
 import cn.ucai.superwechat.ui.SendMessage_Activity;
 import cn.ucai.superwechat.ui.SettingsActivity;
+import cn.ucai.superwechat.ui.VideoCallActivity;
 
 public class MFGT {
     public static void finish(Activity activity) {
@@ -77,6 +79,13 @@ public class MFGT {
     public static void gotoChat(Activity context, String mUserName) {
         Intent intent = new Intent(context, ChatActivity.class);
         intent.putExtra("userId", mUserName);
+        startActivity(context,intent);
+    }
+
+    public static void gotoVideo(Activity context,String username,boolean a) {
+        Intent intent = new Intent(context,VideoCallActivity.class );
+        intent.putExtra("username",username);
+        intent.putExtra("isComingCall",a);
         startActivity(context,intent);
     }
 }
