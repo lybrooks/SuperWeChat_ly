@@ -32,6 +32,7 @@ import cn.ucai.superwechat.utils.ResultUtils;
 import cn.ucai.superwechat.widget.ContactItemView;
 
 import com.hyphenate.easeui.domain.EaseUser;
+import com.hyphenate.easeui.domain.User;
 import com.hyphenate.easeui.ui.EaseContactListFragment;
 import com.hyphenate.util.EMLog;
 import com.hyphenate.util.NetUtils;
@@ -52,7 +53,6 @@ import android.widget.Toast;
 
 /**
  * contact list
- *
  */
 public class ContactListFragment extends EaseContactListFragment {
 
@@ -130,8 +130,13 @@ public class ContactListFragment extends EaseContactListFragment {
                 if (user != null) {
                     String username = user.getUsername();
                     // demo中直接进入聊天页面，实际一般是进入用户详情页
-                       // startActivity(new Intent(getActivity(), ChatActivity.class).putExtra("userId", username));
-                    MFGT.gotoFriendProfile(getActivity(), SuperWechatHelper.getInstance().getAppcontactList().get(username));
+                    // startActivity(new Intent(getActivity(), ChatActivity.class).putExtra("userId", username));
+                    User u = SuperWechatHelper.getInstance().getAppcontactList().get(username);
+                    if (u != null) {
+                        MFGT.gotoFriendProfile(getActivity(), u);
+                    }else {
+                        return;
+                    }
                 }
             }
         });
@@ -224,29 +229,11 @@ public class ContactListFragment extends EaseContactListFragment {
     public boolean onContextItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.delete_contact) {
             try {
-                NetDao.deteUser(getContext(), SuperWechatHelper.getInstance().getCurrentUser().getMUserName(), toBeProcessUser.getUsername(), new OkHttpUtils.OnCompleteListener<String>() {
-                    @Override
-                    public void onSuccess(String s) {
-                        if(s!=null){
-                            Result result = ResultUtils.getResultFromJson(s, Result.class);
-                            if(result!=null&&result.isRetMsg()){
-                                CommonUtils.showShortToast(R.string.delete_contact);
-                                // delete contact
-                                deleteContact(toBeProcessUser);
-                                // remove invitation message
-                                InviteMessgeDao dao = new InviteMessgeDao(getActivity());
-                                dao.deleteMessage(toBeProcessUser.getUsername());
-                            }
-                        }
-
-                    }
-
-                    @Override
-                    public void onError(String error) {
-
-                    }
-                });
-
+                // delete contact
+                deleteContact(toBeProcessUser);
+                // remove invitation message
+                InviteMessgeDao dao = new InviteMessgeDao(getActivity());
+                dao.deleteMessage(toBeProcessUser.getUsername());
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -271,6 +258,9 @@ public class ContactListFragment extends EaseContactListFragment {
         pd.setMessage(st1);
         pd.setCanceledOnTouchOutside(false);
         pd.show();
+        //NetDao.deteUser();
+
+
         new Thread(new Runnable() {
             public void run() {
                 try {
