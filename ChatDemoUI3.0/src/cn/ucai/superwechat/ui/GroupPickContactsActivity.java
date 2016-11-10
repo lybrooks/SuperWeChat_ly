@@ -29,9 +29,6 @@ import android.widget.TextView;
 
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMGroup;
-import cn.ucai.superwechat.Constant;
-import cn.ucai.superwechat.SuperWechatHelper;
-import cn.ucai.superwechat.R;
 import com.hyphenate.easeui.adapter.EaseContactAdapter;
 import com.hyphenate.easeui.domain.User;
 import com.hyphenate.easeui.widget.EaseSidebar;
@@ -40,6 +37,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+
+import cn.ucai.superwechat.Constant;
+import cn.ucai.superwechat.R;
+import cn.ucai.superwechat.SuperWechatHelper;
 
 public class GroupPickContactsActivity extends BaseActivity {
 	/** if this is a new group */
@@ -66,7 +67,11 @@ public class GroupPickContactsActivity extends BaseActivity {
 		// get contact list
 		final List<User> alluserList = new ArrayList<User>();
 		for (User user : SuperWechatHelper.getInstance().getAppcontactList().values()) {
-			if (!user.getMUserName().equals(Constant.NEW_FRIENDS_USERNAME) & !user.getMUserName().equals(Constant.GROUP_USERNAME) & !user.getMUserName().equals(Constant.CHAT_ROOM) & !user.getMUserName().equals(Constant.CHAT_ROBOT))
+			if (!user.getMUserName().equals(Constant.NEW_FRIENDS_USERNAME) &
+					!user.getMUserName().equals(Constant.GROUP_USERNAME) &
+					!user.getMUserName().equals(Constant.CHAT_ROOM) &
+					!user.getMUserName().equals(Constant.CHAT_ROBOT)&
+					!user.getMUserName().equals(EMClient.getInstance().getCurrentUser()))
 				alluserList.add(user);
 		}
 		// sort the list
