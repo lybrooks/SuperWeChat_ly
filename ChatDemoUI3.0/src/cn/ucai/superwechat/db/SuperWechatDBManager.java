@@ -5,12 +5,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.text.TextUtils;
 
-import cn.ucai.superwechat.Constant;
-import cn.ucai.superwechat.SuperWechatApplication;
-import cn.ucai.superwechat.domain.InviteMessage;
-import cn.ucai.superwechat.domain.InviteMessage.InviteMesageStatus;
-import cn.ucai.superwechat.domain.RobotUser;
-
 import com.hyphenate.easeui.domain.EaseUser;
 import com.hyphenate.easeui.domain.User;
 import com.hyphenate.easeui.utils.EaseCommonUtils;
@@ -21,6 +15,12 @@ import java.util.Collections;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
+
+import cn.ucai.superwechat.Constant;
+import cn.ucai.superwechat.SuperWechatApplication;
+import cn.ucai.superwechat.domain.InviteMessage;
+import cn.ucai.superwechat.domain.InviteMessage.InviteMesageStatus;
+import cn.ucai.superwechat.domain.RobotUser;
 
 public class SuperWechatDBManager {
     static private SuperWechatDBManager dbMgr = new SuperWechatDBManager();
@@ -490,13 +490,13 @@ public class SuperWechatDBManager {
         return users;
     }
 
-    public void saveAppContactList(ArrayList<User> mList) {
+    public void saveAppContactList(List<User> mList) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         if (db.isOpen()) {
             db.delete(UserDao.USER_TABLE_NAME, null, null);
             for (User user : mList) {
                 ContentValues values = new ContentValues();
-                values.put(UserDao.COLUMN_NAME_ID, user.getMUserName());
+                values.put(UserDao.USER_COLUME_NAME, user.getMUserName());
                 if (user.getMUserNick() != null)
                     values.put(UserDao.USER_COLUME_NICK, user.getMUserNick());
                 if (user.getMAvatarId() != null)

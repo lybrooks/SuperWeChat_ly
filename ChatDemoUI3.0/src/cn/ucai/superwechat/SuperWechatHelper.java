@@ -8,7 +8,6 @@ import android.content.IntentFilter;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
-import com.alipay.security.mobile.module.commonutils.CommonUtils;
 import com.easemob.redpacketui.RedPacketConstant;
 import com.easemob.redpacketui.utils.RedPacketUtil;
 import com.hyphenate.EMCallBack;
@@ -1121,6 +1120,42 @@ public class SuperWechatHelper {
 
         isSyncingContactsWithServer = true;
 
+
+
+
+        NetDao.loadContact(appContext, new OkHttpUtils.OnCompleteListener<String>() {
+            @Override
+            public void onSuccess(String s) {
+                if(s!=null){
+                    Result result = ResultUtils.getListResultFromJson(s, User.class);
+                    if(result!=null&&result.isRetMsg()){
+                        List<User> list= (List<User>) result.getRetData();
+                        if(list!=null&&list.size()>0){
+                            L.e(TAG,"list="+list.toString());
+                            Map<String,User> userlist = new HashMap<String, User>();
+                            for(User user:list){
+                                EaseCommonUtils.setAppUserInitialLetter(user);
+                                userlist.put(user.getMUserName(),user);
+                            }
+                            getAppcontactList().clear();
+                            getAppcontactList().putAll(userlist);
+                            UserDao dao = new UserDao(appContext);
+                            List<User> users = new ArrayList<User>(userlist.values());
+                            dao.saveAppContactList(users);
+                            broadcastManager.sendBroadcast(new Intent(Constant.ACTION_CONTACT_CHANAGED));
+                        }
+
+                    }
+                }
+
+            }
+
+            @Override
+            public void onError(String error) {
+
+            }
+        });
+
         new Thread() {
             @Override
             public void run() {
@@ -1201,6 +1236,8 @@ public class SuperWechatHelper {
         }
 
         isSyncingBlackListWithServer = true;
+
+
 
         new Thread() {
             @Override
@@ -1349,7 +1386,7 @@ public class SuperWechatHelper {
      * @return
      */
     public Map<String, User> getAppcontactList() {
-        if (isLoggedIn() && (AppcontactList == null || contactList.size() == 0)) {
+        if (isLoggedIn()) {
             AppcontactList = demoModel.getAppContactList();
         }
 

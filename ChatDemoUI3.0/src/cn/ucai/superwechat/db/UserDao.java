@@ -13,15 +13,15 @@
  */
 package cn.ucai.superwechat.db;
 
-import java.util.ArrayList;
+import android.content.Context;
+
+import com.hyphenate.easeui.domain.EaseUser;
+import com.hyphenate.easeui.domain.User;
+
 import java.util.List;
 import java.util.Map;
 
-import android.content.Context;
-
 import cn.ucai.superwechat.domain.RobotUser;
-import com.hyphenate.easeui.domain.EaseUser;
-import com.hyphenate.easeui.domain.User;
 
 public class UserDao {
 	public static final String TABLE_NAME = "uers";
@@ -129,7 +129,7 @@ public class UserDao {
 		return SuperWechatDBManager.getInstance().getAppContactList();
 	}
 
-	public void saveAppContactList(ArrayList<User> mList) {
+	public void saveAppContactList(List<User> mList) {
 		SuperWechatDBManager.getInstance().saveAppContactList(mList);
 	}
 
