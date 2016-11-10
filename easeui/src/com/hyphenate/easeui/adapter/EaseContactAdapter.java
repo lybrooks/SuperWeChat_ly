@@ -83,7 +83,7 @@ public class EaseContactAdapter extends ArrayAdapter<User> implements SectionInd
             holder.headerView.setVisibility(View.GONE);
         }
 
-        EaseUserUtils.setUserNick(username, holder.nameView);
+        EaseUserUtils.setUserNick(user.getMUserNick(), holder.nameView);
         EaseUserUtils.setAppUserAvatar(getContext(),username, holder.avatar);
         
        
