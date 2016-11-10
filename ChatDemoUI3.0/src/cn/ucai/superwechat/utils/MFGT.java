@@ -3,16 +3,15 @@ package cn.ucai.superwechat.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.provider.MediaStore;
 
 import com.hyphenate.easeui.domain.User;
-
 
 import cn.ucai.superwechat.I;
 import cn.ucai.superwechat.R;
 import cn.ucai.superwechat.ui.AddContactActivity;
 import cn.ucai.superwechat.ui.ChatActivity;
 import cn.ucai.superwechat.ui.FriendProfileActivity;
+import cn.ucai.superwechat.ui.GroupsActivity;
 import cn.ucai.superwechat.ui.LoginActivity;
 import cn.ucai.superwechat.ui.MainActivity;
 import cn.ucai.superwechat.ui.RegisterActivity;
@@ -87,5 +86,9 @@ public class MFGT {
         intent.putExtra("username",username);
         intent.putExtra("isComingCall",a);
         startActivity(context,intent);
+    }
+
+    public static void gotoGroup(Activity context) {
+        startActivity(context, GroupsActivity.class);
     }
 }
