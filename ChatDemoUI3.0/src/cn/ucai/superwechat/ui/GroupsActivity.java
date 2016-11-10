@@ -183,7 +183,7 @@ public class GroupsActivity extends BaseActivity {
         super.onDestroy();
         instance = null;
     }
-    
+
     @OnClick(R.id.img_back)
     public void onClick() {
         MFGT.finish(this);
