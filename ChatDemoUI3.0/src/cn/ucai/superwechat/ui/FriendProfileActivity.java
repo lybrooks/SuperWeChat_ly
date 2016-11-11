@@ -17,7 +17,11 @@ import butterknife.OnClick;
 import cn.ucai.superwechat.I;
 import cn.ucai.superwechat.R;
 import cn.ucai.superwechat.SuperWechatHelper;
+import cn.ucai.superwechat.bean.Result;
+import cn.ucai.superwechat.data.NetDao;
+import cn.ucai.superwechat.data.OkHttpUtils;
 import cn.ucai.superwechat.utils.MFGT;
+import cn.ucai.superwechat.utils.ResultUtils;
 
 public class FriendProfileActivity extends BaseActivity {
 
@@ -41,34 +45,80 @@ public class FriendProfileActivity extends BaseActivity {
     @Bind(R.id.friends_addfriends)
     TextView friendsAddfriends;
 
+    String UserName = null;
 
     User user = null;
+
+    Boolean isFriend;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friend_profile);
         ButterKnife.bind(this);
-        user = (User) getIntent().getSerializableExtra(I.User.USER_NAME);
-        if (user == null) {
+        UserName = getIntent().getStringExtra(I.User.USER_NAME);
+        if (UserName == null) {
             MFGT.finish(this);
             return;
         }
         initView();
+        user = SuperWechatHelper.getInstance().getAppcontactList().get(UserName);
+        if (user == null) {
+            isFriend = false;
+        } else {
+            setUserInfo();
+            isFriend = true;
+        }
+        isFriend(isFriend);
+        syncUserInfo();
+
+    }
+
+    private void syncUserInfo() {
+        NetDao.syncUserInfo(this, UserName, new OkHttpUtils.OnCompleteListener<String>() {
+            @Override
+            public void onSuccess(String s) {
+                if (s != null) {
+                    Result result = ResultUtils.getResultFromJson(s, User.class);
+                    if (result != null && result.isRetMsg()) {
+                        user = (User) result.getRetData();
+                        if (user != null) {
+                            setUserInfo();
+                            if(isFriend){
+                                SuperWechatHelper.getInstance().saveAppContact(user);
+                            }
+                        } else {
+                            syncfail();
+                        }
+                    } else {
+                        syncfail();
+                    }
+                } else {
+                    syncfail();
+                }
+            }
+
+            @Override
+            public void onError(String error) {
+
+            }
+        });
+    }
+
+    private void syncfail() {
+        MFGT.finish(this);
+        return;
     }
 
     private void initView() {
         imgBack.setVisibility(View.VISIBLE);
         txtTitle.setVisibility(View.VISIBLE);
         txtTitle.setText(R.string.profile_friend);
-        isFriend();
-        setUserInfo();
-
 
     }
 
-    private void isFriend() {
-
-        if (SuperWechatHelper.getInstance().getAppcontactList().containsKey(user.getMUserName())) {
+    private void isFriend(boolean isFriend) {
+        if (isFriend) {
             friendsSend.setVisibility(View.VISIBLE);
             friendsSend.setText(R.string.send_message);
             friendsMoive.setVisibility(View.VISIBLE);
@@ -85,17 +135,17 @@ public class FriendProfileActivity extends BaseActivity {
     }
 
 
-    @OnClick({R.id.img_back, R.id.friends_addfriends,R.id.friends_send,R.id.friends_moive})
+    @OnClick({R.id.img_back, R.id.friends_addfriends, R.id.friends_send, R.id.friends_moive})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.img_back:
                 MFGT.finish(this);
                 break;
             case R.id.friends_addfriends:
-                MFGT.gotoSendMessage(this,user.getMUserName());
+                MFGT.gotoSendMessage(this, user.getMUserName());
                 break;
             case R.id.friends_send:
-                MFGT.gotoChat(this,user.getMUserName());
+                MFGT.gotoChat(this, user.getMUserName());
                 break;
             case R.id.friends_moive:
                 if (!EMClient.getInstance().isConnected())

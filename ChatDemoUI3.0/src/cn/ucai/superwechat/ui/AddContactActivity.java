@@ -29,7 +29,6 @@ import com.hyphenate.easeui.widget.EaseAlertDialog;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import cn.ucai.superwechat.I;
 import cn.ucai.superwechat.R;
 import cn.ucai.superwechat.SuperWechatHelper;
 import cn.ucai.superwechat.bean.Result;
@@ -106,7 +105,7 @@ public class AddContactActivity extends BaseActivity {
                         if (result != null && result.isRetMsg()) {
                             User user = (User) result.getRetData();
                             if (user != null) {
-                                MFGT.gotoFriendProfile(AddContactActivity.this, user);
+                                MFGT.gotoFriendProfile(AddContactActivity.this, user.getMUserName());
                             }
                         } else {
                             CommonUtils.showShortToast(R.string.msg_104);

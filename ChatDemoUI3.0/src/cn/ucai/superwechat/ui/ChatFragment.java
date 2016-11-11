@@ -262,7 +262,7 @@ public class ChatFragment extends EaseChatFragment implements EaseChatFragmentHe
 //        Intent intent = new Intent(getActivity(), UserProfileActivity.class);
 //        intent.putExtra("username", username);
 //        startActivity(intent);
-        MFGT.gotoFriendProfile(getActivity(),SuperWechatHelper.getInstance().getAppcontactList().get(username));
+        MFGT.gotoFriendProfile(getActivity(),username);
     }
     
     @Override

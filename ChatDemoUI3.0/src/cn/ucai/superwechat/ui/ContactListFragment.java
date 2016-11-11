@@ -130,7 +130,7 @@ public class ContactListFragment extends EaseContactListFragment {
                     // startActivity(new Intent(getActivity(), ChatActivity.class).putExtra("userId", username));
                     User u = SuperWechatHelper.getInstance().getAppcontactList().get(username);
                     if (u != null) {
-                        MFGT.gotoFriendProfile(getActivity(), u);
+                        MFGT.gotoFriendProfile(getActivity(), u.getMUserName());
                     } else {
                         return;
                     }
