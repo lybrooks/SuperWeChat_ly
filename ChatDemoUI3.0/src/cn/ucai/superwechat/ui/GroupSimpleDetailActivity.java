@@ -25,8 +25,9 @@ import android.widget.Toast;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMGroup;
 import com.hyphenate.chat.EMGroupInfo;
-import cn.ucai.superwechat.R;
 import com.hyphenate.exceptions.HyphenateException;
+
+import cn.ucai.superwechat.R;
 
 public class GroupSimpleDetailActivity extends BaseActivity {
 	private Button btn_add_group;
@@ -146,6 +147,8 @@ public class GroupSimpleDetailActivity extends BaseActivity {
          tv_name.setText(group.getGroupName());
          tv_admin.setText(group.getOwner());
          tv_introduction.setText(group.getDescription());
+
+		// EaseUserUtils.setAppGroupAvatar(this, getItem(position).getGroupId(), findViewById(R.id.avatar));
      }
 	
 	public void back(View view){

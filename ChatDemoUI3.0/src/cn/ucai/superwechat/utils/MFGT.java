@@ -12,6 +12,7 @@ import cn.ucai.superwechat.ui.FriendProfileActivity;
 import cn.ucai.superwechat.ui.GroupsActivity;
 import cn.ucai.superwechat.ui.LoginActivity;
 import cn.ucai.superwechat.ui.MainActivity;
+import cn.ucai.superwechat.ui.NewGroupActivity;
 import cn.ucai.superwechat.ui.RegisterActivity;
 import cn.ucai.superwechat.ui.SendMessage_Activity;
 import cn.ucai.superwechat.ui.SettingsActivity;
@@ -65,28 +66,33 @@ public class MFGT {
     public static void gotoFriendProfile(Activity context, String username) {
         Intent intent = new Intent(context, FriendProfileActivity.class);
         intent.putExtra(I.User.USER_NAME, username);
-        startActivity(context,intent);
+        startActivity(context, intent);
     }
 
     public static void gotoSendMessage(Activity context, String mUserName) {
         Intent intent = new Intent(context, SendMessage_Activity.class);
         intent.putExtra(I.User.USER_NAME, mUserName);
-        startActivity(context,intent);
+        startActivity(context, intent);
     }
+
     public static void gotoChat(Activity context, String mUserName) {
         Intent intent = new Intent(context, ChatActivity.class);
         intent.putExtra("userId", mUserName);
-        startActivity(context,intent);
+        startActivity(context, intent);
     }
 
-    public static void gotoVideo(Activity context,String username,boolean a) {
-        Intent intent = new Intent(context,VideoCallActivity.class );
-        intent.putExtra("username",username);
-        intent.putExtra("isComingCall",a);
-        startActivity(context,intent);
+    public static void gotoVideo(Activity context, String username, boolean a) {
+        Intent intent = new Intent(context, VideoCallActivity.class);
+        intent.putExtra("username", username);
+        intent.putExtra("isComingCall", a);
+        startActivity(context, intent);
     }
 
     public static void gotoGroup(Activity context) {
         startActivity(context, GroupsActivity.class);
+    }
+
+    public static void gotoNewGrgoup(Activity context) {
+        startActivity(context, NewGroupActivity.class);
     }
 }

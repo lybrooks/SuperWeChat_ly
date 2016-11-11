@@ -242,6 +242,7 @@ public class MainActivity extends BaseActivity implements DMTabHost.OnCheckedCha
         public void onItemClick(ActionItem item, int position) {
             switch (position) {
                 case 0:
+                    MFGT.gotoNewGrgoup(MainActivity.this);
                     break;
                 case 1:
                     MFGT.gotoAddContact(MainActivity.this);
