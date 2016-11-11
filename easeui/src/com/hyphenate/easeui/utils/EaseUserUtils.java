@@ -11,6 +11,7 @@ import com.hyphenate.chat.EMClient;
 import com.hyphenate.easeui.controller.EaseUI;
 import com.hyphenate.easeui.controller.EaseUI.EaseUserProfileProvider;
 import com.hyphenate.easeui.domain.EaseUser;
+import com.hyphenate.easeui.domain.Group;
 import com.hyphenate.easeui.domain.User;
 import com.hyphenate.easeui.R;
 
@@ -170,4 +171,17 @@ public class EaseUserUtils {
     }
 
 
+    public static void setAppGroupAvatar(Context context, String hixd, ImageView imageView) {
+        if (hixd!= null) {
+            try {
+                int avatarResId = Integer.parseInt(Group.getAvatar(hixd));
+                Glide.with(context).load(avatarResId).into(imageView);
+            } catch (Exception e) {
+                //use default avatar
+                Glide.with(context).load(Group.getAvatar(hixd)).diskCacheStrategy(DiskCacheStrategy.ALL).placeholder(R.drawable.ease_group_icon).into(imageView);
+            }
+        } else {
+            Glide.with(context).load(R.drawable.ease_group_icon).into(imageView);
+        }
+    }
 }

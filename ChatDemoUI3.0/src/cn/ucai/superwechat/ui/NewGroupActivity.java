@@ -1,6 +1,6 @@
 /**
  * Copyright (C) 2016 Hyphenate Inc. All rights reserved.
- * <p>
+ * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -300,6 +300,10 @@ public class NewGroupActivity extends BaseActivity {
                     if (result != null && result.isRetMsg()) {
                         createGroupSuccess();
                     }
+                    else {
+                        progressDialog.dismiss();
+                        CommonUtils.showShortToast(R.string.Failed_to_create_groups);
+                    }
                 } else {
                     progressDialog.dismiss();
                     CommonUtils.showShortToast(R.string.Failed_to_create_groups);
@@ -308,7 +312,8 @@ public class NewGroupActivity extends BaseActivity {
 
             @Override
             public void onError(String error) {
-
+                progressDialog.dismiss();
+                CommonUtils.showShortToast(R.string.Failed_to_create_groups);
             }
         });
 

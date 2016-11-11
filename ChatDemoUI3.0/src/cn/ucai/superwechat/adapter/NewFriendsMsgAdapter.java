@@ -13,21 +13,6 @@
  */
 package cn.ucai.superwechat.adapter;
 
-import java.util.List;
-
-import com.hyphenate.chat.EMClient;
-import com.hyphenate.easeui.domain.User;
-import com.hyphenate.easeui.utils.EaseUserUtils;
-
-import cn.ucai.superwechat.I;
-import cn.ucai.superwechat.R;
-import cn.ucai.superwechat.bean.Result;
-import cn.ucai.superwechat.data.NetDao;
-import cn.ucai.superwechat.data.OkHttpUtils;
-import cn.ucai.superwechat.db.InviteMessgeDao;
-import cn.ucai.superwechat.domain.InviteMessage;
-import cn.ucai.superwechat.utils.ResultUtils;
-
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.ContentValues;
@@ -42,6 +27,20 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.hyphenate.chat.EMClient;
+import com.hyphenate.easeui.domain.User;
+import com.hyphenate.easeui.utils.EaseUserUtils;
+
+import java.util.List;
+
+import cn.ucai.superwechat.R;
+import cn.ucai.superwechat.bean.Result;
+import cn.ucai.superwechat.data.NetDao;
+import cn.ucai.superwechat.data.OkHttpUtils;
+import cn.ucai.superwechat.db.InviteMessgeDao;
+import cn.ucai.superwechat.domain.InviteMessage;
+import cn.ucai.superwechat.utils.ResultUtils;
 
 public class NewFriendsMsgAdapter extends ArrayAdapter<InviteMessage> {
 
@@ -94,33 +93,35 @@ public class NewFriendsMsgAdapter extends ArrayAdapter<InviteMessage> {
 			if(msg.getGroupId() != null){ // show group name
 				holder.groupContainer.setVisibility(View.VISIBLE);
 				holder.groupname.setText(msg.getGroupName());
+				EaseUserUtils.setAppGroupAvatar(getContext(),msg.getGroupId(),holder.avator);
 			} else{
 				holder.groupContainer.setVisibility(View.GONE);
+				NetDao.searchUser(getContext(), msg.getFrom(), new OkHttpUtils.OnCompleteListener<String>() {
+					@Override
+					public void onSuccess(String s) {
+						if(s!=null){
+							Result result = ResultUtils.getResultFromJson(s, User.class);
+							if(result!=null&&result.isRetMsg()){
+								User user = (User) result.getRetData();
+								EaseUserUtils.setAppUserPathAvatar(context,user.getAvatar(),holder.avator);
+								EaseUserUtils.setAppUserNick(user.getMUserNick(),holder.name);
+							}
+						}
+
+					}
+
+					@Override
+					public void onError(String error) {
+
+					}
+				});
 			}
 			
 			holder.reason.setText(msg.getReason());
 			//holder.name.setText(msg.getFrom());
 			// holder.time.setText(DateUtils.getTimestampString(new
 			// Date(msg.getTime())));
-			NetDao.searchUser(getContext(), msg.getFrom(), new OkHttpUtils.OnCompleteListener<String>() {
-				@Override
-				public void onSuccess(String s) {
-					if(s!=null){
-						Result result = ResultUtils.getResultFromJson(s, User.class);
-						if(result!=null&&result.isRetMsg()){
-							User user = (User) result.getRetData();
-							EaseUserUtils.setAppUserPathAvatar(context,user.getAvatar(),holder.avator);
-							EaseUserUtils.setAppUserNick(user.getMUserNick(),holder.name);
-						}
-					}
 
-				}
-
-				@Override
-				public void onError(String error) {
-
-				}
-			});
 
 
 			if (msg.getStatus() == InviteMessage.InviteMesageStatus.BEAGREED) {
