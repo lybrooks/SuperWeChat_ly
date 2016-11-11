@@ -186,12 +186,25 @@ public class NetDao {
                 memberArr += m + ",";
             }
         }
-        L.e("AddGroupMenber"+memberArr);
+        L.e("AddGroupMenber" + memberArr);
         memberArr = memberArr.substring(0, memberArr.length() - 1);
         utils.setRequestUrl(I.REQUEST_ADD_GROUP_MEMBERS)
                 .addParam(I.Member.GROUP_HX_ID, emGroup.getGroupId())
                 .addParam(I.Member.USER_NAME, memberArr)
                 .targetClass(String.class)
                 .execute(listener);
+    }
+
+    /**
+     * 删除单个群组成员
+     */
+    public static void deleteMenber(Context context, String groupId, String username, OkHttpUtils.OnCompleteListener<String> listener) {
+        OkHttpUtils<String> utils = new OkHttpUtils<>(context);
+        utils.setRequestUrl(I.REQUEST_DELETE_GROUP_MEMBER)
+                .addParam(I.Member.GROUP_HX_ID, groupId)
+                .addParam(I.Member.USER_NAME, username)
+                .targetClass(String.class)
+                .execute(listener);
+
     }
 }
